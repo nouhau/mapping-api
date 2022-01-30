@@ -16,21 +16,21 @@
 3 - Instale o Docker
 
 ---
-  https://www.docker.com/products/docker-desktop
+    https://www.docker.com/products/docker-desktop
 ---
 
 
 3 - Instale todas as dependências
 
 ---
-  yarn install
+    yarn install
 ---
 
 4 - Execute o projeto
 
 ---
-  docker-compose up -d
-  yarn service run:dev
+    docker-compose up -d
+    yarn service run:dev
 ---
 
 5 - Acesse a rota principal
@@ -40,7 +40,7 @@
 6 - Aplique os padrões de código
 
 ---
-  yarn lint:fix
+    yarn lint:fix
 ---
 
 ### Testando o projeto
@@ -48,11 +48,11 @@
 #### Testes unitários
 
 ---
-  yarn test:unit
+    yarn test:unit
 ---
 
 #### Testes de integração
 
 ---
-  yarn test:integration
+    yarn test:integration
 ---
