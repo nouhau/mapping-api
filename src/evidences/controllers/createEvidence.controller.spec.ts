@@ -26,7 +26,6 @@ describe('CreateEvidenceController', () => {
       desc: evidenceMock.desc
     }
   } as Request
-
   const response = makeMockResponse()
 
   it('should return a evidence when created', async () => {
@@ -39,12 +38,24 @@ describe('CreateEvidenceController', () => {
     expect(response.state.json).toMatchObject(evidenceMock)
   })
 
+  it('should return status 400 when name is empty', async () => {
+    const request = {
+      body: {
+        name: '',
+        desc: evidenceMock.desc
+      }
+    } as Request
+
+    await createEvidenceController.handle(request, response)
+    expect(response.state.status).toBe(400)
+  })
+
   it('should return status 500 when have server error', async () => {
     mockExecute = jest.fn().mockImplementation(() => {
       throw new Error()
     })
 
-    await expect(createEvidenceController.handle(request, response))
-      .rejects.toThrowError()
+    await createEvidenceController.handle(request, response)
+    expect(response.state.status).toBe(500)
   })
 })

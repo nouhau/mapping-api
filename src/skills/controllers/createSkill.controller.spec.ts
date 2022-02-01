@@ -39,12 +39,23 @@ describe('CreateSkillController', () => {
     expect(response.state.json).toMatchObject(skillMock)
   })
 
+  it('should return status 400 when name is empty', async () => {
+    const request = {
+      body: {
+        name: '',
+        desc: skillMock.desc
+      }
+    } as Request
+    await createSkillController.handle(request, response)
+    expect(response.state.status).toBe(400)
+  })
+
   it('should return status 500 when have server error', async () => {
     mockExecute = jest.fn().mockImplementation(() => {
       throw new Error()
     })
 
-    await expect(createSkillController.handle(request, response))
-      .rejects.toThrowError()
+    await createSkillController.handle(request, response)
+    expect(response.state.status).toBe(500)
   })
 })

@@ -39,12 +39,26 @@ describe('CreateMatrixController', () => {
     expect(response.state.json).toMatchObject(matrixMock)
   })
 
+  it('should return status 400 when name is empty', async () => {
+    const request = {
+      body: {
+        name: '',
+        desc: matrixMock.desc
+      }
+    } as Request
+
+    mockExecute = jest.fn().mockResolvedValue(matrixMock)
+
+    await createMatrixController.handle(request, response)
+    expect(response.state.status).toBe(400)
+  })
+
   it('should return status 500 when have server error', async () => {
     mockExecute = jest.fn().mockImplementation(() => {
       throw new Error()
     })
 
-    await expect(createMatrixController.handle(request, response))
-      .rejects.toThrowError()
+    await createMatrixController.handle(request, response)
+    expect(response.state.status).toBe(500)
   })
 })
