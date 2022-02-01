@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Evidence } from './Evidences'
 import { Matrix } from './Matrix'
