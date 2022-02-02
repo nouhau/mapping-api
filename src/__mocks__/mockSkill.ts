@@ -1,9 +1,9 @@
-import { v4 as uuid } from 'uuid'
+import { randomUUID } from 'crypto'
 import { Skill } from '../common/entities/Skills'
 import { randomString } from '../common/randomString'
 
 export const getMockSkill = (): Skill => ({
-  skill_id: uuid(),
+  skill_id: randomUUID.toString(),
   name: randomString(),
   desc: 'Some description'
 })

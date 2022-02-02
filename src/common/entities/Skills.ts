@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { v4 as uuid } from 'uuid'
+import { randomUUID } from 'crypto'
 
 @Entity('skills')
 export class Skill {
@@ -18,7 +18,7 @@ export class Skill {
       desc?: string
     ) {
       if (!this.skill_id) {
-        this.skill_id = uuid()
+        this.skill_id = randomUUID.toString()
       }
       this.name = name
       this.desc = desc

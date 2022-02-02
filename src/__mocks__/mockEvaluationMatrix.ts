@@ -1,13 +1,13 @@
-import { v4 as uuid } from 'uuid'
+import { randomUUID } from 'crypto'
 import { EvaluationMatrix } from '../common/entities/EvaluationMatrix'
 import { randomString } from '../common/randomString'
 
-const mockEvidenceId = uuid()
-const mockSkillId = uuid()
-const mockMatrixId = uuid()
+const mockEvidenceId = randomUUID.toString()
+const mockSkillId = randomUUID.toString()
+const mockMatrixId = randomUUID.toString()
 
 export const getMockEvaluationMatrix = (): EvaluationMatrix => ({
-  evaluation_matrix_id: uuid(),
+  evaluation_matrix_id: randomUUID.toString(),
   evidence_id: mockEvidenceId,
   skill_id: mockSkillId,
   matrix_id: mockMatrixId,
