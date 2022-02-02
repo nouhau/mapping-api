@@ -5,6 +5,7 @@ import { evidenceRouter } from './routes/evidences.routes'
 import { skillRouter } from './routes/skills.routes'
 import createConnection from './config/database'
 import { matrixRouter } from './routes/matrix.routes'
+import { recordPeopleRouter } from './routes/recordPeople.routes'
 
 createConnection()
 const server = express()
@@ -14,7 +15,7 @@ const PORT = process.env.PORT || 5000
 
 server.use(evidenceRouter)
 server.use(skillRouter)
-server.use(matrixRouter)
+server.use(matrixRouter, recordPeopleRouter)
 
 server.listen(PORT, () => {
   console.log(`Server on port ${PORT} \nhttp://localhost:${PORT}`)
