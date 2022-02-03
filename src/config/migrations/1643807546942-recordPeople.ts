@@ -12,24 +12,14 @@ export class recordPeople1643807546942 implements MigrationInterface {
             isPrimary: true
           },
           {
-            name: 'people_email',
-            type: 'varchar',
+            name: 'people_id',
+            type: 'uuid',
             isNullable: false
           },
           {
             name: 'evidence_id',
             type: 'uuid',
             isNullable: false
-          },
-          {
-            name: 'evaluator_1',
-            type: 'float',
-            isNullable: true
-          },
-          {
-            name: 'evaluator_2',
-            type: 'float',
-            isNullable: true
           },
           {
             name: 'average',

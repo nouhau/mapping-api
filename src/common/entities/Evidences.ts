@@ -18,7 +18,7 @@ export class Evidence {
       desc?: string
     ) {
       if (!this.evidence_id) {
-        this.evidence_id = randomUUID.toString()
+        this.evidence_id = randomUUID().toString()
       }
       this.name = name
       this.desc = desc

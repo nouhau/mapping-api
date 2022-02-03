@@ -24,7 +24,7 @@ export class Matrix {
       desc?: string
     ) {
       if (!this.matrix_id) {
-        this.matrix_id = randomUUID.toString()
+        this.matrix_id = randomUUID().toString()
         this.active = false
       }
       this.name = name

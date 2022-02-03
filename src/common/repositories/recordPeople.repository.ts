@@ -13,7 +13,7 @@ export class RecordPeopleRepository {
       return await this.manager.find(RecordPeople, {
         where: {
           // TODO: change to dinamic paramter
-          people_email: 'teste@email.com'
+          people_id: '4914786a-c981-462b-a2dd-cc7157767b12'
         },
         relations: ['evidenceId']
       })

@@ -5,11 +5,9 @@ import { randomString } from '../common/randomString'
 const mockEvidenceId = randomUUID.toString()
 
 export const getMockRecordPeople = (): RecordPeople => ({
-  record_id: randomUUID.toString(),
-  people_email: randomString(),
+  record_id: randomUUID().toString(),
+  people_id: randomString(),
   evidence_id: mockEvidenceId,
-  evaluator_1: 1,
-  evaluator_2: 1,
   average: 1,
   evidenceId: {
     evidence_id: mockEvidenceId,

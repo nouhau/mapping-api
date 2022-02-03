@@ -1,9 +1,10 @@
 
 import 'reflect-metadata'
 import express from 'express'
+import createConnection from './config/database'
+
 import { evidenceRouter } from './routes/evidences.routes'
 import { skillRouter } from './routes/skills.routes'
-import createConnection from './config/database'
 import { matrixRouter } from './routes/matrix.routes'
 import { recordPeopleRouter } from './routes/recordPeople.routes'
 

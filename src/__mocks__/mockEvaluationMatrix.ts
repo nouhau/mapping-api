@@ -2,12 +2,12 @@ import { randomUUID } from 'crypto'
 import { EvaluationMatrix } from '../common/entities/EvaluationMatrix'
 import { randomString } from '../common/randomString'
 
-const mockEvidenceId = randomUUID.toString()
-const mockSkillId = randomUUID.toString()
-const mockMatrixId = randomUUID.toString()
+const mockEvidenceId = randomUUID().toString()
+const mockSkillId = randomUUID().toString()
+const mockMatrixId = randomUUID().toString()
 
 export const getMockEvaluationMatrix = (): EvaluationMatrix => ({
-  evaluation_matrix_id: randomUUID.toString(),
+  evaluation_matrix_id: randomUUID().toString(),
   evidence_id: mockEvidenceId,
   skill_id: mockSkillId,
   matrix_id: mockMatrixId,
