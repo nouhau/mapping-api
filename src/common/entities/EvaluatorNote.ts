@@ -1,11 +1,13 @@
-
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Evidence } from './Evidences'
 
-@Entity('recordPeople')
-export class RecordPeople {
+@Entity('evaluatorNotes')
+export class EvaluatorNote {
     @PrimaryGeneratedColumn('uuid')
-    record_id: string
+    evaluation_id: string
+
+    @Column({ nullable: false })
+    evaluator_id: string
 
     @Column({ nullable: false })
     people_id: string
@@ -18,15 +20,17 @@ export class RecordPeople {
     evidenceId: Evidence;
 
     @Column()
-    average: number | null;
+    note: number | null;
 
     constructor (
+      evaluator_id: string,
       people_id: string,
       evidence_id: string,
-      average?: number
+      note?: number
     ) {
+      this.evidence_id = evaluator_id
       this.people_id = people_id
       this.evidence_id = evidence_id
-      this.average = !average ? null : average
+      this.note = !note ? null : note
     }
 }

@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockMatrix } from '../../__mocks__/mockMatrix'
 import { CreateMatrixService } from './createMatrix.service'
 
@@ -13,7 +12,7 @@ describe('CreateMatrixService', () => {
   const matrixMock = getMockMatrix()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
     createMatrixService = new CreateMatrixService({
       matrixRepository: matrixMockRepository,
       name: matrixMock.name,
@@ -22,8 +21,7 @@ describe('CreateMatrixService', () => {
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
   it('Create and return a new matrix created', async () => {

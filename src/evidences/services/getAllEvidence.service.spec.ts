@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockEvidence } from '../../__mocks__/mockEvidence'
 import { GetAllEvidenceService } from './getAllEvidence.service'
 
@@ -13,12 +12,11 @@ describe('GetAllEvidence', () => {
   const otherEvidenceMock = getMockEvidence()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
   it('get all evidences', async () => {

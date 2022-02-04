@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockRecordPeople } from '../../__mocks__/mockRecordPeople'
 import { GetRecordPeopleService } from './getRecordPeople.service'
 
@@ -12,15 +11,14 @@ describe('GetRecordPeople', () => {
   const recordPeopleMock = getMockRecordPeople()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
-  it('get main evaluation matrix', async () => {
+  it('get recordPeople', async () => {
     recordPeopleMockRepository.getRecord = jest.fn()
       .mockImplementation(() => Promise.resolve([recordPeopleMock]))
 

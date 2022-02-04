@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { randomUUID } from 'crypto'
 

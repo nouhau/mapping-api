@@ -12,7 +12,7 @@ describe('EvaluationMatrixRepository', () => {
 
     const evaluationMatrixRepository = new EvaluationMatrixRepository(managerMock)
 
-    const matrix = await evaluationMatrixRepository.getMain()
-    expect(matrix).toMatchObject([evaluationMatrixMock])
+    const evaluationMatrix = await evaluationMatrixRepository.getMain()
+    expect(evaluationMatrix).toMatchObject([evaluationMatrixMock])
   })
 })

@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockEvaluationMatrix } from '../../__mocks__/mockEvaluationMatrix'
 import { GetEvaluationMatrixService } from './getEvaluationMatrix.service'
 
@@ -12,12 +11,11 @@ describe('GetEvaluationMatrix', () => {
   const evaluationMatrixMock = getMockEvaluationMatrix()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
   it('get main evaluation matrix', async () => {

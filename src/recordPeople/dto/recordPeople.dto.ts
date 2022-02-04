@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { IsNotEmpty, IsNumber, ValidateIf } from 'class-validator'
 import { errorCodes } from '../../common/errorCodes'
 

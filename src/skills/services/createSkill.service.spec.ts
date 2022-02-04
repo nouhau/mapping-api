@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockSkill } from '../../__mocks__/mockSkill'
 import { CreateSkillService } from './createSkill.service'
 
@@ -13,7 +12,7 @@ describe('CreateSkillervice', () => {
   const skillMock = getMockSkill()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
     createSkillService = new CreateSkillService({
       skillRepository: skillMockRepository,
       name: skillMock.name,
@@ -22,8 +21,7 @@ describe('CreateSkillervice', () => {
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
   it('Create and return a new skill created', async () => {

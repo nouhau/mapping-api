@@ -12,7 +12,7 @@ describe('RecordPeopleRepository', () => {
 
     const recordPeopleRepository = new RecordPeopleRepository(managerMock)
 
-    const matrix = await recordPeopleRepository.getRecord()
-    expect(matrix).toMatchObject([recordPeopleMock])
+    const recordPeople = await recordPeopleRepository.getRecord()
+    expect(recordPeople).toMatchObject([recordPeopleMock])
   })
 })
