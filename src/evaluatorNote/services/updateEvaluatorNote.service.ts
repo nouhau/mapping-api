@@ -3,6 +3,7 @@ import { EvaluatorNote } from '../../common/entities/EvaluatorNote'
 import { LoggerService } from '../../common/LoggerService'
 import { EvaluatorNoteRepository } from '../../common/repositories/evaluatorNote.repository'
 import { UpdateRecordPeopleService } from '../../recordPeople/services/updateRecordPeople.service'
+import { GetEvaluatorNoteService } from './getEvaluatorNote.service'
 
 interface IEvaluatorNoteService {
   evaluatorNoteRepository?: EvaluatorNoteRepository,
@@ -10,7 +11,8 @@ interface IEvaluatorNoteService {
   updateRecordPeopleService?: UpdateRecordPeopleService,
   evaluatorId: string,
   peopleId: string,
-  evidenceId: string
+  evidenceId: string,
+  getEvaluatorNoteService?: GetEvaluatorNoteService
 }
 
 export class UpdateEvaluatorNoteService {
@@ -18,6 +20,7 @@ export class UpdateEvaluatorNoteService {
     private evaluatorNote: EvaluatorNote
     private logger: LoggerService = new LoggerService()
     private updateRecordPeopleService: UpdateRecordPeopleService
+    private getEvaluatorNoteService: GetEvaluatorNoteService
 
     constructor ({
       evaluatorNoteRepository = getCustomRepository(EvaluatorNoteRepository),
@@ -25,16 +28,18 @@ export class UpdateEvaluatorNoteService {
       updateRecordPeopleService = new UpdateRecordPeopleService({ value: note }),
       evaluatorId,
       peopleId,
-      evidenceId
+      evidenceId,
+      getEvaluatorNoteService = new GetEvaluatorNoteService({ peopleId, evidenceId })
     }: IEvaluatorNoteService) {
       this.evaluatorNoteRepository = evaluatorNoteRepository
+      this.updateRecordPeopleService = updateRecordPeopleService
+      this.getEvaluatorNoteService = getEvaluatorNoteService
       this.evaluatorNote = new EvaluatorNote(
         evaluatorId,
         peopleId,
         evidenceId,
         note
       )
-      this.updateRecordPeopleService = updateRecordPeopleService
     }
 
     async execute () {
@@ -44,12 +49,31 @@ export class UpdateEvaluatorNoteService {
       )
       return await this.evaluatorNoteRepository.updateEvaluatorNote()
         .then(async evaluatorNote => {
-          this.updateRecordPeople()
+          this.getEvaluatorNotes()
+            .then(evaluatorNotes => {
+              if (evaluatorNotes.length >= 2) {
+                // TODO: calculate new value from average
+                this.updateRecordPeople()
+                return evaluatorNote
+              }
+            })
           return evaluatorNote
         })
     }
 
     private async updateRecordPeople () {
+      this.logger.trace(
+        'Updating record people average',
+        this.constructor.name
+      )
       return await this.updateRecordPeopleService.execute()
+    }
+
+    private async getEvaluatorNotes () {
+      this.logger.trace(
+        'Getting evaluator notes',
+        this.constructor.name
+      )
+      return this.getEvaluatorNoteService.execute()
     }
 }

@@ -22,4 +22,16 @@ export class EvaluatorNoteRepository {
         }
       )
     }
+
+    getEvaluatorNote = async (): Promise<EvaluatorNote[]> => {
+      // TODO: change to dinamic paramters
+      return await this.manager.find(EvaluatorNote,
+        {
+          where: {
+            evidence_id: '9debe0f7-72d2-4dd9-8601-bbc432041021',
+            people_id: '4914786a-c981-462b-a2dd-cc7157767b12'
+          },
+          relations: ['evidenceId']
+        })
+    }
 }
