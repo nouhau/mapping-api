@@ -2,26 +2,30 @@ import { getCustomRepository } from 'typeorm'
 import { EvaluatorNote } from '../../common/entities/EvaluatorNote'
 import { LoggerService } from '../../common/LoggerService'
 import { EvaluatorNoteRepository } from '../../common/repositories/evaluatorNote.repository'
+import { UpdateRecordPeopleService } from '../../recordPeople/services/updateRecordPeople.service'
 
 interface IEvaluatorNoteService {
-  evaluatorNoteRepository?: EvaluatorNoteRepository
+  evaluatorNoteRepository?: EvaluatorNoteRepository,
+  note: number
+  updateRecordPeopleService?: UpdateRecordPeopleService,
   evaluatorId: string,
   peopleId: string,
-  evidenceId: string,
-  note: number
+  evidenceId: string
 }
 
 export class UpdateEvaluatorNoteService {
     private evaluatorNoteRepository: EvaluatorNoteRepository
     private evaluatorNote: EvaluatorNote
     private logger: LoggerService = new LoggerService()
+    private updateRecordPeopleService: UpdateRecordPeopleService
 
     constructor ({
       evaluatorNoteRepository = getCustomRepository(EvaluatorNoteRepository),
+      note,
+      updateRecordPeopleService = new UpdateRecordPeopleService({ value: note }),
       evaluatorId,
       peopleId,
-      evidenceId,
-      note
+      evidenceId
     }: IEvaluatorNoteService) {
       this.evaluatorNoteRepository = evaluatorNoteRepository
       this.evaluatorNote = new EvaluatorNote(
@@ -30,6 +34,7 @@ export class UpdateEvaluatorNoteService {
         evidenceId,
         note
       )
+      this.updateRecordPeopleService = updateRecordPeopleService
     }
 
     async execute () {
@@ -38,5 +43,13 @@ export class UpdateEvaluatorNoteService {
         this.constructor.name
       )
       return await this.evaluatorNoteRepository.updateEvaluatorNote()
+        .then(async evaluatorNote => {
+          this.updateRecordPeople()
+          return evaluatorNote
+        })
+    }
+
+    private async updateRecordPeople () {
+      return await this.updateRecordPeopleService.execute()
     }
 }

@@ -31,6 +31,6 @@ export class UpdateRecordPeopleService {
         'Creating evidence',
         this.constructor.name
       )
-      // return await this.recordPeopleRepository.updateRecord(this.value)
+      return await this.recordPeopleRepository.updateRecord()
     }
 }

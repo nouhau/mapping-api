@@ -15,4 +15,19 @@ describe('RecordPeopleRepository', () => {
     const recordPeople = await recordPeopleRepository.getRecord()
     expect(recordPeople).toMatchObject([recordPeopleMock])
   })
+
+  it('should call methor updateRecord and return affected rows', async () => {
+    const managerMock = await getManagerMock({
+      updateReturn: {
+        affected: 1
+      }
+    })
+
+    const recordPeopleRepository = new RecordPeopleRepository(managerMock)
+
+    const updateRecordPeople = await recordPeopleRepository.updateRecord()
+    expect(updateRecordPeople).toMatchObject({
+      affected: 1
+    })
+  })
 })

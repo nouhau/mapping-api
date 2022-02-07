@@ -6,6 +6,7 @@ import { UpdateEvaluatorNoteService } from '../services/updateEvaluatorNote.serv
 
 export class UpdateEvaluatorNoteController {
   async handle (request: Request, response: Response): Promise<Response> {
+    console.log(request.body)
     const logger: LoggerService = new LoggerService()
     const evaluatorNoteRequest = new EvaluatorNoteRequest(request.body)
     const updateEvaluatorNoteService = new UpdateEvaluatorNoteService(request.body)

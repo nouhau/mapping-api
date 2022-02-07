@@ -18,4 +18,17 @@ export class RecordPeopleRepository {
         relations: ['evidenceId']
       })
     }
+
+    updateRecord = async () => {
+      return await this.manager.update(RecordPeople,
+        {
+          // TODO: change to dinamic paramter
+          people_id: '4914786a-c981-462b-a2dd-cc7157767b12',
+          evidence_id: '0f7c9e57-64ba-4cfb-ac4e-98ba84dd34f7'
+        },
+        {
+          average: 3
+        }
+      )
+    }
 }

@@ -5,9 +5,8 @@ import { EvidenceRequest } from '../dto/evidenceRequest.dto'
 import { LoggerService } from '../../common/LoggerService'
 
 export class CreateEvidenceController {
-  private logger: LoggerService = new LoggerService()
-
   async handle (request: Request, response: Response): Promise<Response> {
+    const logger: LoggerService = new LoggerService()
     const evidenceRequest: EvidenceRequest = new EvidenceRequest(request.body)
     const createEvidenceService = new CreateEvidenceService(request.body)
 
@@ -25,7 +24,7 @@ export class CreateEvidenceController {
         let errorCode: string
         if (Array.isArray(error)) {
           error.forEach(item => {
-            this.logger.trace(
+            logger.trace(
               `No ${item.property} is provided `,
               'Request error'
             )

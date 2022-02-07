@@ -11,7 +11,7 @@ export class EvaluatorNoteRequest {
   @IsNotEmpty({ message: errorCodes.EVIDENCE_ID_REQUIRED })
   evidenceId: string
 
-  @ValidateIf(evaluatorNote => evaluatorNote.note !== undefined)
+  @IsNotEmpty({ message: errorCodes.NOTE_REQUIRED })
   @IsNumber(
     { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 0 },
     { message: errorCodes.NON_NUMERIC_VALUE }
@@ -27,6 +27,6 @@ export class EvaluatorNoteRequest {
     this.evaluatorId = body.evaluatorId
     this.peopleId = body.peopleId
     this.evidenceId = body.evidenceId
-    this.note = body.note
+    this.note = body.note || null
   }
 }

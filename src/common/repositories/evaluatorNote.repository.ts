@@ -18,7 +18,7 @@ export class EvaluatorNoteRepository {
           people_id: '4914786a-c981-462b-a2dd-cc7157767b12'
         },
         {
-          note: 5
+          note: 6
         }
       )
     }
