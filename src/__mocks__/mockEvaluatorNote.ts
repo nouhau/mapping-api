@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto'
 import { EvaluatorNote } from '../common/entities/EvaluatorNote'
 import { randomString } from '../common/randomString'
 
-const mockEvidenceId = randomUUID.toString()
+const mockEvidenceId = randomUUID().toString()
 
 export const getMockEvaluatorNote = (): EvaluatorNote => ({
   evaluation_id: randomUUID().toString(),

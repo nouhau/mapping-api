@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto'
 import { RecordPeople } from '../common/entities/RecordPeople'
 import { randomString } from '../common/randomString'
 
-const mockEvidenceId = randomUUID.toString()
+const mockEvidenceId = randomUUID().toString()
 
 export const getMockRecordPeople = (): RecordPeople => ({
   record_id: randomUUID().toString(),

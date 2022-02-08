@@ -51,8 +51,8 @@ export class UpdateEvaluatorNoteService {
         .then(async evaluatorNote => {
           this.getEvaluatorNotes()
             .then(evaluatorNotes => {
-              if (evaluatorNotes.length >= 2) {
-                // TODO: calculate new value from average
+              const average = this.calulateAverage(evaluatorNotes)
+              if (average) {
                 this.updateRecordPeople()
                 return evaluatorNote
               }
@@ -75,5 +75,22 @@ export class UpdateEvaluatorNoteService {
         this.constructor.name
       )
       return this.getEvaluatorNoteService.execute()
+    }
+
+    private calulateAverage (evaluatorNotes: EvaluatorNote[]) {
+      if (evaluatorNotes.length >= 2) {
+        this.logger.trace(
+          'Calculate new average',
+          this.constructor.name
+        )
+
+        let note: number = 0
+        evaluatorNotes.forEach(evaluatorNote => {
+          note += evaluatorNote.note
+          return note
+        })
+        note = note / evaluatorNotes.length
+        return note
+      }
     }
 }
