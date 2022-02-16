@@ -15,6 +15,7 @@ export function verifyAuthenticated (request: Request, response: Response, next:
     const [, token] = authToken.split(' ')
 
     try {
+      // TODO: change token
       const { sub } = verify(token, 'token') as IPayload
       logger.trace(
         'Validating token',
