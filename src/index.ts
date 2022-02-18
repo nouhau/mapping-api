@@ -8,6 +8,7 @@ import { skillRouter } from './routes/skills.routes'
 import { matrixRouter } from './routes/matrix.routes'
 import { recordPeopleRouter } from './routes/recordPeople.routes'
 import { evaluatorNoteRouter } from './routes/evaluatorNote.routes'
+import { mappingNoteRouter } from './routes/mapping.routes'
 
 createConnection()
 const server = express()
@@ -40,7 +41,8 @@ server.use(
   skillRouter,
   matrixRouter,
   recordPeopleRouter,
-  evaluatorNoteRouter
+  evaluatorNoteRouter,
+  mappingNoteRouter
 )
 
 server.listen(PORT, () => {

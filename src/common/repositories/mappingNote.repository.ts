@@ -17,8 +17,8 @@ export class MappingNoteRepository {
     updateMappingNote = async (): Promise<UpdateResult> => {
       return await this.manager.update(MappingNote,
         {
-          mapping_id: '',
-          skill_id: ''
+          mapping_id: '4f4daded-59ee-4051-8e90-635dae55fe78',
+          skill_id: '0a94d8b6-a7ce-4ae6-bcd1-1f6d5223a3cd'
         },
         {
           note: 2

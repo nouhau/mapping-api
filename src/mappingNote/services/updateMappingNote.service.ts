@@ -49,14 +49,14 @@ export class UpdateMappingNoteService {
           // TODO: refactor method and split responsabilities
           const mappingNote = result[0][0]
           const skills = result[2].filter(skill => skill.skill_id === mappingNote.skill_id)
-          let somaProdutos = 0
-          let somaPesos = 0
+          let somaProdutos = 0.0
+          let somaPesos = 0.0
           skills.forEach(skill => {
             somaProdutos += skill.value * mappingNote.note
             somaPesos += skill.value
           })
 
-          let media = 0
+          let media = 0.0
           result[1].forEach(recordPeople => {
             media += recordPeople.average
           })
@@ -65,6 +65,8 @@ export class UpdateMappingNoteService {
           const mediaPond = somaProdutos / somaPesos
 
           console.log({ somaProdutos, media, somaPesos, mediaPond })
+
+          console.log(result)
 
           return this.mappingNoteRepository.updateMappingNote()
         })
