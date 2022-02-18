@@ -28,7 +28,7 @@ export class EvaluatorNote {
       evidence_id: string,
       note?: number
     ) {
-      this.evidence_id = evaluator_id
+      this.evaluator_id = evaluator_id
       this.people_id = people_id
       this.evidence_id = evidence_id
       this.note = !note ? null : note

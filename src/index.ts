@@ -28,6 +28,13 @@ server.use((error: Error, request: Request, response: Response, next: NextFuncti
   })
 })
 
+server.use(function (request: Request, response: Response, next: NextFunction) {
+  response.header('Access-Control-Allow-Origin', '*')
+  response.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST')
+  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
 server.use(
   evidenceRouter,
   skillRouter,

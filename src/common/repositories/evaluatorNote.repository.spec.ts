@@ -18,7 +18,7 @@ describe('EvaluatorNoteRepository', () => {
     expect(managerMock.update).toHaveBeenCalled()
   })
 
-  it('should method getEvaluatorNote and return array with array of evaluatorNote', async () => {
+  it('should call method getEvaluatorNote and return array with array of evaluatorNote', async () => {
     const managerMock = await getManagerMock({
       findReturn: [evaluatorNoteMock]
     })
