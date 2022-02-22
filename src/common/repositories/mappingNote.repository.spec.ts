@@ -26,7 +26,12 @@ describe('MappingNoteRepository', () => {
 
     const mappingNoteRepository = new MappingNoteRepository(managerMock)
 
-    const mappingNote = await mappingNoteRepository.updateMappingNote()
+    const mappingNote = await mappingNoteRepository.updateMappingNote(
+      mappingNoteMock.mapping_id,
+      mappingNoteMock.skill_id,
+      2
+    )
+
     expect(mappingNote).toMatchObject({
       affected: 1
     })

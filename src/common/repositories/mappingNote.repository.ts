@@ -14,14 +14,14 @@ export class MappingNoteRepository {
       return await this.manager.find(MappingNote)
     }
 
-    updateMappingNote = async (): Promise<UpdateResult> => {
+    updateMappingNote = async (mappingId: string, skillId: string, note: number): Promise<UpdateResult> => {
       return await this.manager.update(MappingNote,
         {
-          mapping_id: '4f4daded-59ee-4051-8e90-635dae55fe78',
-          skill_id: '83296910-b8eb-4d89-b90e-f215c8ad3d94'
+          mapping_id: mappingId,
+          skill_id: skillId
         },
         {
-          note: 1
+          note
         }
       )
     }

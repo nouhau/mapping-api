@@ -53,7 +53,6 @@ export class UpdateMappingNoteService {
 
           return this.getWeightSkill(mappingNote.skill_id, mapping.matrix_id)
             .then(async evaluationMatrix => {
-              console.log(evaluationMatrix)
               const skills = evaluationMatrix.filter(skill => skill.skill_id === mappingNote.skill_id)
 
               skills.forEach(skill => {
@@ -72,7 +71,11 @@ export class UpdateMappingNoteService {
 
               console.log(result)
 
-              return await this.mappingNoteRepository.updateMappingNote()
+              return await this.mappingNoteRepository.updateMappingNote(
+                mapping.mapping_id,
+                mappingNote.skill_id,
+                mediaPond
+              )
             })
         })
     }
