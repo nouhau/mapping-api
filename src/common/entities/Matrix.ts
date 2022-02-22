@@ -22,10 +22,6 @@ export class Matrix {
       name?: string,
       desc?: string
     ) {
-      if (!this.matrix_id) {
-        this.matrix_id = randomUUID().toString()
-        this.active = false
-      }
       this.name = name
       this.desc = desc
     }

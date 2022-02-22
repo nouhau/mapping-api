@@ -6,15 +6,15 @@ import { UpdateMappingNoteService } from '../services/updateMappingNote.service'
 
 export class UpdateMappingNoteController {
   async handle (request: Request, response: Response): Promise<Response> {
-    console.log(request.body)
     const logger: LoggerService = new LoggerService()
     const mappingNoteRequest = new MappingNoteRequest(request.body)
-    const updateMappingNoteService = new UpdateMappingNoteService({})
+    const updateMappingNoteService = new UpdateMappingNoteService()
 
     return await validateOrReject(mappingNoteRequest)
       .then(async () => {
-        return await updateMappingNoteService.execute()
+        return await updateMappingNoteService.execute(mappingNoteRequest.mappingId)
           .then(result => {
+            console.log(result)
             return response.status(200).json(result)
           })
           .catch(() => {

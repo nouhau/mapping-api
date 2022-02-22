@@ -9,7 +9,8 @@ export const getMockMappingNote = (): MappingNote => ({
   note: 2,
   mappingId: {
     mapping_id: randomUUID().toString(),
-    people_id: randomUUID().toString()
+    people_id: randomUUID().toString(),
+    matrix_id: randomUUID().toString()
   },
   skillId: {
     skill_id: randomUUID().toString(),

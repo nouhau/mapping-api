@@ -23,7 +23,7 @@ describe('EvaluationMatrixRepository', () => {
 
     const evaluationMatrixRepository = new EvaluationMatrixRepository(managerMock)
 
-    const evaluationMatrix = await evaluationMatrixRepository.getWeightSkill()
+    const evaluationMatrix = await evaluationMatrixRepository.getWeightSkill(evaluationMatrixMock.skill_id, evaluationMatrixMock.matrix_id)
     expect(evaluationMatrix).toMatchObject([evaluationMatrixMock])
   })
 })

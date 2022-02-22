@@ -1,11 +1,13 @@
 import { GetWeightSkillService } from '../../matrix/services/getWeightSkill.service'
 import { GetRecordPeopleService } from '../../recordPeople/services/getRecordPeople.service'
 import mockConnection from '../../__mocks__/mockConnection'
+import { getMockMapping } from '../../__mocks__/mockMapping'
 import { getMockMappingNote } from '../../__mocks__/mockMappingNote'
 import { getMockRecordPeople } from '../../__mocks__/mockRecordPeople'
 import { getMockEvaluationMatrix } from '../../__mocks__/mockEvaluationMatrix'
 import { GetMappingNoteService } from './getMappingNote.service'
 import { UpdateMappingNoteService } from './updateMappingNote.service'
+import { MappingService } from './mapping.service'
 
 jest.mock('../../common/repositories/mappingNote.repository')
 
@@ -15,10 +17,13 @@ describe('UpdateMappingNote', () => {
   let getMappingNoteServiceMock: Partial<GetMappingNoteService>
   let getRecordPeopleServiceMock: Partial<GetRecordPeopleService>
   let getWeightSkillServiceMock: Partial<GetWeightSkillService>
-  let updateMappingNoteService
+  let mappingServiceMock: Partial<MappingService>
+  let updateMappingNoteService: UpdateMappingNoteService
 
   const mappingNoteMock = getMockMappingNote()
   const recordPeopleMock = getMockRecordPeople()
+  const mappingMock = getMockMapping()
+
   recordPeopleMock.average = 2
   const recordPeopleReturn = [recordPeopleMock, getMockRecordPeople()]
 
@@ -51,12 +56,18 @@ describe('UpdateMappingNote', () => {
       execute: jest.fn()
     }
 
-    updateMappingNoteService = new UpdateMappingNoteService({
-      mappingNoteRepository: mappingNoteMockRepository,
-      getMappingNoteService: getMappingNoteServiceMock as GetMappingNoteService,
-      getRecordPeopleService: getRecordPeopleServiceMock as GetRecordPeopleService,
-      getWeightSkillService: getWeightSkillServiceMock as GetWeightSkillService
-    })
+    mappingServiceMock = {
+      getMapping: jest.fn()
+        .mockImplementation(() => Promise.resolve(mappingMock))
+    }
+
+    updateMappingNoteService = new UpdateMappingNoteService(
+      mappingNoteMockRepository,
+      getMappingNoteServiceMock as GetMappingNoteService,
+      getRecordPeopleServiceMock as GetRecordPeopleService,
+      getWeightSkillServiceMock as GetWeightSkillService,
+      mappingServiceMock as MappingService
+    )
   })
 
   afterEach(async () => {
@@ -78,7 +89,7 @@ describe('UpdateMappingNote', () => {
     // const somaPesos = evaluationMatrixMock[0].value + evaluationMatrixMock[1].value
     // const mediaPond = somaProdutos / somaPesos
 
-    const mappingNote = await updateMappingNoteService.execute()
+    const mappingNote = await updateMappingNoteService.execute(mappingMock.mapping_id)
     expect(getRecordPeopleServiceMock.execute).toHaveBeenCalled()
     expect(getWeightSkillServiceMock.execute).toHaveBeenCalled()
     expect(mappingNote).toMatchObject({

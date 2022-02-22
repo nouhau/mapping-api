@@ -2,7 +2,7 @@ import getManagerMock from '../../__mocks__/getEntityManagerMock'
 import { getMockMappingNote } from '../../__mocks__/mockMappingNote'
 import { MappingNoteRepository } from './mappingNote.repository'
 
-describe('MappingRepository', () => {
+describe('MappingNoteRepository', () => {
   const mappingNoteMock = getMockMappingNote()
   const otherMappingNoteMock = getMockMappingNote()
 

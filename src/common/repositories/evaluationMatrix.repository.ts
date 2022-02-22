@@ -19,12 +19,12 @@ export class EvaluationMatrixRepository {
       })
     }
 
-    getWeightSkill = async (): Promise<EvaluationMatrix[]> => {
+    getWeightSkill = async (skillId: string, matrixId: string): Promise<EvaluationMatrix[]> => {
       return await this.manager.find(EvaluationMatrix, {
         where: {
           // TODO: change to dinamic paramter
-          skill_id: '83296910-b8eb-4d89-b90e-f215c8ad3d94',
-          matrix_id: '192f8754-69ad-4e0d-b529-211e8aa53812'
+          skill_id: skillId,
+          matrix_id: matrixId
         },
         relations: ['matrixId', 'evidenceId', 'skillId']
       })

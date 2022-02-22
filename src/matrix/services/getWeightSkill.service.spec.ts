@@ -5,10 +5,11 @@ import { GetWeightSkillService } from './getWeightSkill.service'
 jest.mock('../../common/repositories/evaluationMatrix.repository')
 
 const evaluationMatrixMockRepository = require('../../common/repositories/evaluationMatrix.repository')
-const getWeightSkillService = new GetWeightSkillService(evaluationMatrixMockRepository)
 
 describe('GetWeightSkillService', () => {
   const evaluationMatrixMock = getMockEvaluationMatrix()
+
+  const getWeightSkillService = new GetWeightSkillService(evaluationMatrixMockRepository)
 
   beforeEach(async () => {
     await mockConnection.create()
@@ -22,7 +23,7 @@ describe('GetWeightSkillService', () => {
     evaluationMatrixMockRepository.getWeightSkill = jest.fn()
       .mockImplementation(() => Promise.resolve([evaluationMatrixMock]))
 
-    const evaluationMatrix = await getWeightSkillService.execute()
+    const evaluationMatrix = await getWeightSkillService.execute(evaluationMatrixMock.skill_id, evaluationMatrixMock.matrix_id)
     expect(evaluationMatrix).toMatchObject([evaluationMatrixMock])
   })
 })
