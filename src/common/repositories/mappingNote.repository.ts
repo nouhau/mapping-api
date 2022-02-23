@@ -9,9 +9,12 @@ export class MappingNoteRepository {
       this.manager = manager
     }
 
-    // TODO: change to dinamic paramter
-    getMapping = async (): Promise<MappingNote[]> => {
-      return await this.manager.find(MappingNote)
+    getMapping = async (mappingId: string): Promise<MappingNote[]> => {
+      return await this.manager.find(MappingNote, {
+        where: {
+          mapping_id: mappingId
+        }
+      })
     }
 
     updateMappingNote = async (mappingId: string, skillId: string, note: number): Promise<UpdateResult> => {

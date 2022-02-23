@@ -40,7 +40,7 @@ export class UpdateMappingNoteService {
 
       return await Promise.all([
         this.getMapping(mappingId),
-        this.getMappingNote(),
+        this.getMappingNote(mappingId),
         this.getRecordPeople()
       ])
         .then(async result => {
@@ -54,7 +54,6 @@ export class UpdateMappingNoteService {
           return this.getWeightSkill(mappingNote.skill_id, mapping.matrix_id)
             .then(async evaluationMatrix => {
               const skills = evaluationMatrix.filter(skill => skill.skill_id === mappingNote.skill_id)
-
               skills.forEach(skill => {
                 somaProdutos += skill.value * mappingNote.note
                 somaPesos += skill.value
@@ -69,7 +68,7 @@ export class UpdateMappingNoteService {
 
               console.log({ somaProdutos, media, somaPesos, mediaPond })
 
-              console.log(result)
+              // console.log(result)
 
               return await this.mappingNoteRepository.updateMappingNote(
                 mapping.mapping_id,
@@ -106,11 +105,12 @@ export class UpdateMappingNoteService {
       return this.getWeightSkillService.execute(skillId, matrixId)
     }
 
-    private async getMappingNote (): Promise<MappingNote[]> {
+    private async getMappingNote (mappingId: string): Promise<MappingNote[]> {
       this.logger.trace(
         'Getting mapping',
         this.constructor.name
       )
-      return this.getMappingNoteService.execute()
+
+      return this.getMappingNoteService.execute(mappingId)
     }
 }

@@ -13,11 +13,11 @@ export class GetMappingNoteService {
       this.mappingNoteRepository = mappingNoteRepository
     }
 
-    async execute (): Promise<MappingNote[]> {
+    async execute (mappingId: string): Promise<MappingNote[]> {
       this.logger.trace(
         'Updating note',
         this.constructor.name
       )
-      return await this.mappingNoteRepository.getMapping()
+      return await this.mappingNoteRepository.getMapping(mappingId)
     }
 }

@@ -22,7 +22,7 @@ describe('GetMappingNoteService', () => {
     mappingNoteMockRepository.getMapping = jest.fn()
       .mockImplementation(() => Promise.resolve([mockMappingNote]))
 
-    const mapping = await getMappingNoteService.execute()
+    const mapping = await getMappingNoteService.execute(mockMappingNote.mapping_id)
     expect(mapping).toMatchObject([mockMappingNote])
   })
 })

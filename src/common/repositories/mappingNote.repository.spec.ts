@@ -5,6 +5,7 @@ import { MappingNoteRepository } from './mappingNote.repository'
 describe('MappingNoteRepository', () => {
   const mappingNoteMock = getMockMappingNote()
   const otherMappingNoteMock = getMockMappingNote()
+  otherMappingNoteMock.mapping_id = mappingNoteMock.mapping_id
 
   it('should call getMapping and return mapping array', async () => {
     const managerMock = await getManagerMock({
@@ -13,7 +14,7 @@ describe('MappingNoteRepository', () => {
 
     const mappingNoteRepository = new MappingNoteRepository(managerMock)
 
-    const mappingNote = await mappingNoteRepository.getMapping()
+    const mappingNote = await mappingNoteRepository.getMapping(mappingNoteMock.mapping_id)
     expect(mappingNote).toMatchObject([mappingNoteMock, otherMappingNoteMock])
   })
 
