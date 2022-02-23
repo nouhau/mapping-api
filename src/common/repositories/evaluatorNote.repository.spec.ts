@@ -14,7 +14,12 @@ describe('EvaluatorNoteRepository', () => {
 
     const evaluatorNoteRepository = new EvaluatorNoteRepository(managerMock)
 
-    await evaluatorNoteRepository.updateEvaluatorNote()
+    await evaluatorNoteRepository.updateEvaluatorNote(
+      evaluatorNoteMock.evaluator_id,
+      evaluatorNoteMock.evidence_id,
+      evaluatorNoteMock.people_id,
+      evaluatorNoteMock.note
+    )
     expect(managerMock.update).toHaveBeenCalled()
   })
 
@@ -24,7 +29,7 @@ describe('EvaluatorNoteRepository', () => {
     })
 
     const evaluatorNoteRepository = new EvaluatorNoteRepository(managerMock)
-    await evaluatorNoteRepository.getEvaluatorNote()
+    await evaluatorNoteRepository.getEvaluatorNote(evaluatorNoteMock.evidence_id, evaluatorNoteMock.people_id)
     expect(managerMock.find).toHaveBeenCalled()
   })
 })

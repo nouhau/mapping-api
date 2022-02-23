@@ -7,18 +7,14 @@ jest.mock('../../common/repositories/evaluatorNote.repository')
 const evaluatorNoteMockRepository = require('../../common/repositories/evaluatorNote.repository')
 
 describe('GetEvaluatorNote', () => {
-  let getEvaluatorNoteService
+  let getEvaluatorNoteService: GetEvaluatorNoteService
 
   const evaluatorNoteMock = getMockEvaluatorNote()
 
   beforeEach(async () => {
     await mockConnection.create()
 
-    getEvaluatorNoteService = new GetEvaluatorNoteService({
-      evaluatorNoteRepository: evaluatorNoteMockRepository,
-      peopleId: evaluatorNoteMock.people_id,
-      evidenceId: evaluatorNoteMock.evidence_id
-    })
+    getEvaluatorNoteService = new GetEvaluatorNoteService(evaluatorNoteMockRepository)
   })
 
   afterEach(async () => {
@@ -29,7 +25,7 @@ describe('GetEvaluatorNote', () => {
     evaluatorNoteMockRepository.getEvaluatorNote = jest.fn()
       .mockImplementation(() => Promise.resolve([evaluatorNoteMock]))
 
-    const evaluatorNote = await getEvaluatorNoteService.execute()
+    const evaluatorNote = await getEvaluatorNoteService.execute(evaluatorNoteMock.evidence_id, evaluatorNoteMock.people_id)
     expect(evaluatorNote).toMatchObject([evaluatorNoteMock])
   })
 })

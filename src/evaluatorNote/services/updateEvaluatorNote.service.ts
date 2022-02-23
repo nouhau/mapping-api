@@ -29,7 +29,7 @@ export class UpdateEvaluatorNoteService {
       evaluatorId,
       peopleId,
       evidenceId,
-      getEvaluatorNoteService = new GetEvaluatorNoteService({ peopleId, evidenceId })
+      getEvaluatorNoteService = new GetEvaluatorNoteService()
     }: IEvaluatorNoteService) {
       this.evaluatorNoteRepository = evaluatorNoteRepository
       this.updateRecordPeopleService = updateRecordPeopleService
@@ -42,14 +42,24 @@ export class UpdateEvaluatorNoteService {
       )
     }
 
-    async execute () {
+    async execute (
+      evaluatorId: string,
+      evidenceId: string,
+      peopleId: string,
+      note: number
+    ) {
       this.logger.trace(
         'Updating note',
         this.constructor.name
       )
-      return await this.evaluatorNoteRepository.updateEvaluatorNote()
+      return await this.evaluatorNoteRepository.updateEvaluatorNote(
+        evaluatorId,
+        evidenceId,
+        peopleId,
+        note
+      )
         .then(async evaluatorNote => {
-          this.getEvaluatorNotes()
+          this.getEvaluatorNotes(evidenceId, peopleId)
             .then(evaluatorNotes => {
               const average = this.calulateAverage(evaluatorNotes)
               if (average) {
@@ -69,12 +79,12 @@ export class UpdateEvaluatorNoteService {
       return await this.updateRecordPeopleService.execute()
     }
 
-    private async getEvaluatorNotes () {
+    private async getEvaluatorNotes (evidenceId: string, peopleId: string) {
       this.logger.trace(
         'Getting evaluator notes',
         this.constructor.name
       )
-      return this.getEvaluatorNoteService.execute()
+      return this.getEvaluatorNoteService.execute(evidenceId, peopleId)
     }
 
     private calulateAverage (evaluatorNotes: EvaluatorNote[]) {

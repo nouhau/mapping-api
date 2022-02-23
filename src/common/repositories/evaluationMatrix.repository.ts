@@ -12,7 +12,6 @@ export class EvaluationMatrixRepository {
     getMain = async (): Promise<EvaluationMatrix[]> => {
       return await this.manager.find(EvaluationMatrix, {
         where: {
-          // TODO: change to dinamic paramter
           matrix_id: '192f8754-69ad-4e0d-b529-211e8aa53812'
         },
         relations: ['matrixId', 'evidenceId', 'skillId']
@@ -22,7 +21,6 @@ export class EvaluationMatrixRepository {
     getWeightSkill = async (skillId: string, matrixId: string): Promise<EvaluationMatrix[]> => {
       return await this.manager.find(EvaluationMatrix, {
         where: {
-          // TODO: change to dinamic paramter
           skill_id: skillId,
           matrix_id: matrixId
         },
