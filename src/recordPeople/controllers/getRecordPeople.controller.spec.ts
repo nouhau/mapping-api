@@ -1,5 +1,6 @@
+import { randomUUID } from 'crypto'
+import { Request } from 'express'
 import { getMockRecordPeople } from '../../__mocks__/mockRecordPeople'
-import { makeMockRequest } from '../../__mocks__/mockRequest'
 import { makeMockResponse } from '../../__mocks__/mockResponse'
 import { GetRecordPeopleController } from './getRecordPeople.controller'
 
@@ -17,7 +18,13 @@ jest.mock('../services/getRecordPeople.service', () => {
 
 describe('GetRecordPeople', () => {
   const getRecordPeopleController = new GetRecordPeopleController()
-  const request = makeMockRequest({})
+  const request = {
+    body: {
+      peopleId: randomUUID().toString(),
+      evidenceId: randomUUID().toString()
+    }
+  } as Request
+
   const response = makeMockResponse()
 
   it('Should return status 200 and a empty array when does not have records', async () => {
@@ -47,7 +54,7 @@ describe('GetRecordPeople', () => {
       throw new Error()
     })
 
-    await expect(getRecordPeopleController.handle(request, response))
-      .rejects.toThrowError()
+    await getRecordPeopleController.handle(request, response)
+    expect(response.state.status).toBe(500)
   })
 })

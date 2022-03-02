@@ -9,25 +9,24 @@ export class RecordPeopleRepository {
       this.manager = manager
     }
 
-    getRecord = async (): Promise<RecordPeople[]> => {
+    getRecord = async (peopleId: string): Promise<RecordPeople[]> => {
       return await this.manager.find(RecordPeople, {
         where: {
-          // TODO: change to dinamic paramter
-          people_id: '4914786a-c981-462b-a2dd-cc7157767b12'
+          people_id: peopleId
         },
         relations: ['evidenceId']
       })
     }
 
-    updateRecord = async () => {
+    updateRecord = async (peopleId: string, evidenceId: string, average: number) => {
       return await this.manager.update(RecordPeople,
         {
           // TODO: change to dinamic paramter
-          people_id: '4914786a-c981-462b-a2dd-cc7157767b12',
-          evidence_id: '0f7c9e57-64ba-4cfb-ac4e-98ba84dd34f7'
+          people_id: peopleId,
+          evidence_id: evidenceId
         },
         {
-          average: 3
+          average
         }
       )
     }

@@ -10,27 +10,27 @@ interface IRecordPeople {
 
 export class UpdateRecordPeopleService {
     private recordPeopleRepository: RecordPeopleRepository
-    // private recordPeople: RecordPeople
     private value: number
     private logger: LoggerService = new LoggerService()
 
     constructor ({
       recordPeopleRepository = getCustomRepository(RecordPeopleRepository),
-      // peopleEmail: string,
-      // evidenceId: string,
       value
     }: IRecordPeople) {
       this.recordPeopleRepository = recordPeopleRepository
       this.value = value
-      // this.recordPeople = new RecordPeople(peopleEmail, evidenceId, value)
     }
 
-    async execute () {
+    async execute (
+      peopleId: string,
+      evidenceId: string,
+      average: number
+    ) {
       console.log(this.value)
       this.logger.trace(
         'Creating evidence',
         this.constructor.name
       )
-      return await this.recordPeopleRepository.updateRecord()
+      return await this.recordPeopleRepository.updateRecord(peopleId, evidenceId, average)
     }
 }

@@ -12,7 +12,7 @@ describe('RecordPeopleRepository', () => {
 
     const recordPeopleRepository = new RecordPeopleRepository(managerMock)
 
-    const recordPeople = await recordPeopleRepository.getRecord()
+    const recordPeople = await recordPeopleRepository.getRecord(recordPeopleMock.people_id)
     expect(recordPeople).toMatchObject([recordPeopleMock])
   })
 
@@ -25,7 +25,11 @@ describe('RecordPeopleRepository', () => {
 
     const recordPeopleRepository = new RecordPeopleRepository(managerMock)
 
-    const updateRecordPeople = await recordPeopleRepository.updateRecord()
+    const updateRecordPeople = await recordPeopleRepository.updateRecord(
+      recordPeopleMock.people_id,
+      recordPeopleMock.evidence_id,
+      recordPeopleMock.average
+    )
     expect(updateRecordPeople).toMatchObject({
       affected: 1
     })

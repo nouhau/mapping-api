@@ -12,11 +12,11 @@ export class GetRecordPeopleService {
       this.recordPeopleRepository = recordPeopleRepository
     }
 
-    async execute (): Promise<RecordPeople[]> {
+    async execute (peopleId: string): Promise<RecordPeople[]> {
       this.logger.trace(
         'Getting record people',
         this.constructor.name
       )
-      return await this.recordPeopleRepository.getRecord()
+      return await this.recordPeopleRepository.getRecord(peopleId)
     }
 }

@@ -38,41 +38,38 @@ export class UpdateMappingNoteService {
         this.constructor.name
       )
 
-      return await Promise.all([
-        this.getMapping(mappingId),
-        this.getMappingNote(mappingId),
-        this.getRecordPeople()
-      ])
-        .then(async result => {
-          // TODO: refactor method and split responsabilities
-          const mapping = result[0]
-          const mappingNote = result[1][0]
-          let somaProdutos = 0.0
-          let somaPesos = 0.0
-          let media = 0.0
+      let peopleId: string
 
-          return this.getWeightSkill(mappingNote.skill_id, mapping.matrix_id)
-            .then(async evaluationMatrix => {
-              const skills = evaluationMatrix.filter(skill => skill.skill_id === mappingNote.skill_id)
+      // TODO: refactor this
+      return await this.getMapping(mappingId)
+        .then(async mapping => {
+          peopleId = mapping.people_id
+          return await this.getMappingNote(mappingId)
+            .then(async mappingNote => {
+              let somaProdutos = 0.0
+              let somaPesos = 0.0
+              let media = 0.0
+              const recordPeople = await this.getRecordPeople(peopleId)
+              const evaluatorMatrix = await this.getWeightSkill(mappingNote[0].skill_id, mapping.matrix_id)
+              console.log(evaluatorMatrix)
+              const skills = evaluatorMatrix.filter(skill => skill.skill_id === mappingNote[0].skill_id)
               skills.forEach(skill => {
-                somaProdutos += skill.value * mappingNote.note
+                somaProdutos += skill.value * mappingNote[0].note
                 somaPesos += skill.value
               })
 
-              result[2].forEach(recordPeople => {
-                media += recordPeople.average
+              recordPeople.forEach(record => {
+                media += record.average
               })
-              media = media / result[1].length
+              media = media / evaluatorMatrix.length
 
               const mediaPond = somaProdutos / somaPesos
 
               console.log({ somaProdutos, media, somaPesos, mediaPond })
 
-              // console.log(result)
-
               return await this.mappingNoteRepository.updateMappingNote(
-                mapping.mapping_id,
-                mappingNote.skill_id,
+                mappingId,
+                mappingNote[0].skill_id,
                 mediaPond
               )
             })
@@ -89,12 +86,12 @@ export class UpdateMappingNoteService {
       return await this.mappingService.getMapping(mappingId)
     }
 
-    private async getRecordPeople (): Promise<RecordPeople[]> {
+    private async getRecordPeople (peopleId: string): Promise<RecordPeople[]> {
       this.logger.trace(
         'Getting record people average',
         this.constructor.name
       )
-      return await this.getRecordPeopleService.execute()
+      return await this.getRecordPeopleService.execute(peopleId)
     }
 
     private async getWeightSkill (skillId: string, matrixId: string): Promise<EvaluationMatrix[]> {

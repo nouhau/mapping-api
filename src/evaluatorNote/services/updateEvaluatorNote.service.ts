@@ -63,7 +63,7 @@ export class UpdateEvaluatorNoteService {
             .then(evaluatorNotes => {
               const average = this.calulateAverage(evaluatorNotes)
               if (average) {
-                this.updateRecordPeople()
+                this.updateRecordPeople(peopleId, evidenceId, average)
                 return evaluatorNote
               }
             })
@@ -71,12 +71,16 @@ export class UpdateEvaluatorNoteService {
         })
     }
 
-    private async updateRecordPeople () {
+    private async updateRecordPeople (
+      peopleId: string,
+      evidenceId: string,
+      average: number
+    ) {
       this.logger.trace(
         'Updating record people average',
         this.constructor.name
       )
-      return await this.updateRecordPeopleService.execute()
+      return await this.updateRecordPeopleService.execute(peopleId, evidenceId, average)
     }
 
     private async getEvaluatorNotes (evidenceId: string, peopleId: string) {

@@ -1,4 +1,5 @@
 import mockConnection from '../../__mocks__/mockConnection'
+import { getMockRecordPeople } from '../../__mocks__/mockRecordPeople'
 import { UpdateRecordPeopleService } from './updateRecordPeople.service'
 
 jest.mock('../../common/repositories/recordPeople.repository')
@@ -6,7 +7,8 @@ jest.mock('../../common/repositories/recordPeople.repository')
 const recordPeopleMockRepository = require('../../common/repositories/recordPeople.repository')
 
 describe('UpdateRecordPeople', () => {
-  let updateRecordPeopleService
+  let updateRecordPeopleService: UpdateRecordPeopleService
+  const recordPeopleMock = getMockRecordPeople()
 
   beforeEach(async () => {
     await mockConnection.create()
@@ -26,7 +28,11 @@ describe('UpdateRecordPeople', () => {
         affected: 1
       }))
 
-    const updateRecordPeople = await updateRecordPeopleService.execute()
+    const updateRecordPeople = await updateRecordPeopleService.execute(
+      recordPeopleMock.people_id,
+      recordPeopleMock.evidence_id,
+      recordPeopleMock.average
+    )
     expect(updateRecordPeople).toMatchObject({
       affected: 1
     })

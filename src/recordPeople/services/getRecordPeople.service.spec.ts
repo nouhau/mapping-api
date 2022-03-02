@@ -22,7 +22,7 @@ describe('GetRecordPeople', () => {
     recordPeopleMockRepository.getRecord = jest.fn()
       .mockImplementation(() => Promise.resolve([recordPeopleMock]))
 
-    const recordPeople = await getRecordPeopleService.execute()
+    const recordPeople = await getRecordPeopleService.execute(recordPeopleMock.people_id)
     expect(recordPeople).toMatchObject([recordPeopleMock])
   })
 })

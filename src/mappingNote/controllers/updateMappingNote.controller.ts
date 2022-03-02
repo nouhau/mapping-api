@@ -14,11 +14,7 @@ export class UpdateMappingNoteController {
       .then(async () => {
         return await updateMappingNoteService.execute(mappingNoteRequest.mappingId)
           .then(result => {
-            console.log(result)
             return response.status(200).json(result)
-          })
-          .catch(() => {
-            throw new Error()
           })
       })
       .catch((error) => {
