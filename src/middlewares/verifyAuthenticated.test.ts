@@ -17,6 +17,7 @@ describe('verifyAuthenticated', () => {
     }) as Request
 
     jest.spyOn(jsonwebtoken, 'verify').mockImplementation(() => ({
+      role: 'admin',
       sub: '123456'
     }))
 

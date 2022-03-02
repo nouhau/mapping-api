@@ -5,7 +5,8 @@ import { LoggerService } from '../common/LoggerService'
 const logger = new LoggerService()
 
 interface IPayload {
-    sub: string;
+  role: string
+  sub: string;
 }
 
 export function verifyAuthenticated (request: Request, response: Response, next: NextFunction) {
@@ -16,13 +17,13 @@ export function verifyAuthenticated (request: Request, response: Response, next:
 
     try {
       // TODO: change token
-      const { sub } = verify(token, 'token') as IPayload
+      const auth = verify(token, 'token') as IPayload
       logger.trace(
         'Validating token',
         'verifyAuthenticated'
       )
 
-      request.userId = sub
+      request.body = { auth, ...request.body }
       return next()
     } catch (error) {
       logger.error(
