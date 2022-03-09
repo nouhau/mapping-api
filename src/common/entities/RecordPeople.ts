@@ -1,6 +1,7 @@
 
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Evidence } from './Evidences'
+import { randomUUID } from 'crypto'
 
 @Entity('recordPeople')
 export class RecordPeople {
@@ -25,6 +26,9 @@ export class RecordPeople {
       evidence_id: string,
       average?: number
     ) {
+      if(!this.record_id) {
+        this.record_id = randomUUID().toString()
+      }
       this.people_id = people_id
       this.evidence_id = evidence_id
       this.average = !average ? null : average

@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { randomUUID } from 'crypto'
 
 @Entity('mappings')
 export class Mapping {
@@ -15,6 +16,9 @@ export class Mapping {
       people_id: string,
       matrix_id: string
     ) {
+      if(!this.mapping_id) {
+        this.mapping_id = randomUUID().toString()
+      }
       this.people_id = people_id
       this.matrix_id = matrix_id
     }

@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Evidence } from './Evidences'
+import { randomUUID } from 'crypto'
 
 @Entity('evaluatorNotes')
 export class EvaluatorNote {
@@ -28,6 +29,9 @@ export class EvaluatorNote {
       evidence_id: string,
       note?: number
     ) {
+      if(!this.evaluation_id) {
+        this.evaluation_id = randomUUID().toString()
+      }
       this.evaluator_id = evaluator_id
       this.people_id = people_id
       this.evidence_id = evidence_id

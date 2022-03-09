@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Mapping } from './Mapping';
 import { Skill } from './Skills';
+import { randomUUID } from 'crypto'
 
 @Entity('mappingNotes')
 export class MappingNote {
@@ -29,6 +30,9 @@ export class MappingNote {
       skill_id: string,
       note?: number
     ) {
+      if(!this.mappingNote_id) {
+        this.mappingNote_id = randomUUID().toString()
+      }
       this.mapping_id = mapping_id
       this.skill_id = skill_id
       this.note = !note ? null : note

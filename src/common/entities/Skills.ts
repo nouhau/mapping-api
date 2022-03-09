@@ -16,6 +16,9 @@ export class Skill {
       name?: string,
       desc?: string
     ) {
+      if (!this.skill_id){
+        this.skill_id = randomUUID().toString()
+      }
       this.name = name
       this.desc = desc
     }

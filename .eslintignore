@@ -9,3 +9,4 @@
 **/src/**/dto/*
 **/node_modules/*
 **/api-tests/config/*
+**/tests
