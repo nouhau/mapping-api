@@ -34,6 +34,10 @@ server.use(function (request: Request, response: Response, next: NextFunction) {
   next()
 })
 
+server.get('/', (request: Request, response: Response) => {
+  return response.status(200).json({ message: 'Wellcome' })
+})
+
 server.use(
   evidenceRouter,
   skillRouter,
