@@ -6,10 +6,10 @@ module.exports = {
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   entities: [
-    'src/common/entities/*.ts'
+    'build/common/entities/*.js'
   ],
   migrations: [
-    'src/config/migrations/*.ts'
+    'build/config/migrations/*.js'
 
   ],
   cli: {
