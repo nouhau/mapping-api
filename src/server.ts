@@ -1,6 +1,7 @@
 
 import 'reflect-metadata'
 import express, { Response, Request, NextFunction } from 'express'
+import cors from 'cors'
 import createConnection from './config/database'
 
 import { evidenceRouter } from './routes/evidences.routes'
@@ -13,6 +14,7 @@ import { mappingNoteRouter } from './routes/mapping.routes'
 createConnection()
 const server = express()
 server.use(express.json())
+server.use(cors())
 
 server.use((error: Error, request: Request, response: Response, next: NextFunction) => {
   if (error instanceof Error) {
@@ -28,7 +30,7 @@ server.use((error: Error, request: Request, response: Response, next: NextFuncti
 })
 
 server.use(function (request: Request, response: Response, next: NextFunction) {
-  response.header('Access-Control-Allow-Origin', process.env.URL_AUTHORIZE)
+  response.header('Access-Control-Allow-Origin', 'globo')
   response.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST')
   response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
