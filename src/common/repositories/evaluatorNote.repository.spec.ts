@@ -32,4 +32,14 @@ describe('EvaluatorNoteRepository', () => {
     await evaluatorNoteRepository.getEvaluatorNote(evaluatorNoteMock.evidence_id, evaluatorNoteMock.people_id)
     expect(managerMock.find).toHaveBeenCalled()
   })
+
+  it('should call method getEvaluatorNoteByPeopleId and return array with array of evaluatorNote', async () => {
+    const managerMock = await getManagerMock({
+      findReturn: [evaluatorNoteMock]
+    })
+
+    const evaluatorNoteRepository = new EvaluatorNoteRepository(managerMock)
+    await evaluatorNoteRepository.getEvaluatoNoteByPeopleId(evaluatorNoteMock.people_id)
+    expect(managerMock.find).toHaveBeenCalled()
+  })
 })
