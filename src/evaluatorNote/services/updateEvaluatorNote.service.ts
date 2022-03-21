@@ -3,7 +3,7 @@ import { EvaluatorNote } from '../../common/entities/EvaluatorNote'
 import { LoggerService } from '../../common/LoggerService'
 import { EvaluatorNoteRepository } from '../../common/repositories/evaluatorNote.repository'
 import { UpdateRecordPeopleService } from '../../recordPeople/services/updateRecordPeople.service'
-import { GetEvaluatorNoteService } from './getEvaluatorNote.service'
+import { EvaluatorNoteService } from './evaluatorNote.service'
 
 interface IEvaluatorNoteService {
   evaluatorNoteRepository?: EvaluatorNoteRepository,
@@ -12,7 +12,7 @@ interface IEvaluatorNoteService {
   evaluatorId: string,
   peopleId: string,
   evidenceId: string,
-  getEvaluatorNoteService?: GetEvaluatorNoteService
+  evaluatorNoteService?: EvaluatorNoteService
 }
 
 export class UpdateEvaluatorNoteService {
@@ -20,7 +20,7 @@ export class UpdateEvaluatorNoteService {
     private evaluatorNote: EvaluatorNote
     private logger: LoggerService = new LoggerService()
     private updateRecordPeopleService: UpdateRecordPeopleService
-    private getEvaluatorNoteService: GetEvaluatorNoteService
+    private evaluatorNoteService: EvaluatorNoteService
 
     constructor ({
       evaluatorNoteRepository = getCustomRepository(EvaluatorNoteRepository),
@@ -29,11 +29,11 @@ export class UpdateEvaluatorNoteService {
       evaluatorId,
       peopleId,
       evidenceId,
-      getEvaluatorNoteService = new GetEvaluatorNoteService()
+      evaluatorNoteService = new EvaluatorNoteService()
     }: IEvaluatorNoteService) {
       this.evaluatorNoteRepository = evaluatorNoteRepository
       this.updateRecordPeopleService = updateRecordPeopleService
-      this.getEvaluatorNoteService = getEvaluatorNoteService
+      this.evaluatorNoteService = evaluatorNoteService
       this.evaluatorNote = new EvaluatorNote(
         evaluatorId,
         peopleId,
@@ -88,7 +88,7 @@ export class UpdateEvaluatorNoteService {
         'Getting evaluator notes',
         this.constructor.name
       )
-      return this.getEvaluatorNoteService.execute(evidenceId, peopleId)
+      return this.evaluatorNoteService.execute(evidenceId, peopleId)
     }
 
     private calulateAverage (evaluatorNotes: EvaluatorNote[]) {

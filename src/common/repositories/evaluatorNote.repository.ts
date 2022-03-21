@@ -37,4 +37,14 @@ export class EvaluatorNoteRepository {
           relations: ['evidenceId']
         })
     }
+
+    getEvaluatorNoteByPeopleId = async (peopleId: string): Promise<EvaluatorNote[]> => {
+      return await this.manager.find(EvaluatorNote,
+        {
+          where: {
+            people_id: peopleId
+          },
+          relations: ['evidenceId']
+        })
+    }
 }
