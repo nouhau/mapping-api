@@ -39,7 +39,7 @@ describe('EvaluatorNoteRepository', () => {
     })
 
     const evaluatorNoteRepository = new EvaluatorNoteRepository(managerMock)
-    await evaluatorNoteRepository.getEvaluatoNoteByPeopleId(evaluatorNoteMock.people_id)
+    await evaluatorNoteRepository.getEvaluatorNoteByPeopleId(evaluatorNoteMock.people_id)
     expect(managerMock.find).toHaveBeenCalled()
   })
 })

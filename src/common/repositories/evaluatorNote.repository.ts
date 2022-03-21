@@ -38,7 +38,7 @@ export class EvaluatorNoteRepository {
         })
     }
 
-    getEvaluatoNoteByPeopleId = async (peopleId: string): Promise<EvaluatorNote[]> => {
+    getEvaluatorNoteByPeopleId = async (peopleId: string): Promise<EvaluatorNote[]> => {
       return await this.manager.find(EvaluatorNote,
         {
           where: {

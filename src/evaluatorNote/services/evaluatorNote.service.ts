@@ -2,7 +2,7 @@ import { getCustomRepository } from 'typeorm'
 import { LoggerService } from '../../common/LoggerService'
 import { EvaluatorNoteRepository } from '../../common/repositories/evaluatorNote.repository'
 
-export class GetEvaluatorNoteService {
+export class EvaluatorNoteService {
     private evaluatorNoteRepository: EvaluatorNoteRepository
     private logger: LoggerService = new LoggerService()
 
@@ -18,5 +18,13 @@ export class GetEvaluatorNoteService {
         this.constructor.name
       )
       return await this.evaluatorNoteRepository.getEvaluatorNote(evidenceId, peopleId)
+    }
+
+    async getEvaluatorNoteByPeopleId (peopleId: string) {
+      this.logger.trace(
+        'Getting notes by peopleId',
+        this.constructor.name
+      )
+      return await this.evaluatorNoteRepository.getEvaluatorNoteByPeopleId(peopleId)
     }
 }

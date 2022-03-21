@@ -1,7 +1,7 @@
 import { UpdateRecordPeopleService } from '../../recordPeople/services/updateRecordPeople.service'
 import mockConnection from '../../__mocks__/mockConnection'
 import { getMockEvaluatorNote } from '../../__mocks__/mockEvaluatorNote'
-import { GetEvaluatorNoteService } from './getEvaluatorNote.service'
+import { EvaluatorNoteService } from './evaluatorNote.service'
 import { UpdateEvaluatorNoteService } from './updateEvaluatorNote.service'
 
 jest.mock('../../common/repositories/evaluatorNote.repository')
@@ -10,7 +10,7 @@ const evaluatorNoteMockRepository = require('../../common/repositories/evaluator
 
 describe('UpdateEvaluatorNote', () => {
   let updateEvaluatorNoteService: UpdateEvaluatorNoteService
-  const getEvaluatorNoteServiceMock: Partial<GetEvaluatorNoteService> = {
+  const evaluatorNoteServiceMock: Partial<EvaluatorNoteService> = {
     execute: jest.fn()
   }
 
@@ -30,7 +30,7 @@ describe('UpdateEvaluatorNote', () => {
       evaluatorId: evaluatorNoteMock.evaluator_id,
       peopleId: evaluatorNoteMock.people_id,
       evidenceId: evaluatorNoteMock.evidence_id,
-      getEvaluatorNoteService: getEvaluatorNoteServiceMock as GetEvaluatorNoteService
+      evaluatorNoteService: evaluatorNoteServiceMock as EvaluatorNoteService
     })
 
     evaluatorNoteMockRepository.updateEvaluatorNote = jest.fn()
@@ -44,7 +44,7 @@ describe('UpdateEvaluatorNote', () => {
   })
 
   it('call updateRecordPeople when have array with two evaluatorNotes', async () => {
-    getEvaluatorNoteServiceMock.execute = jest.fn().mockImplementation(() => Promise.resolve([evaluatorNoteMock, evaluatorNoteMock]))
+    evaluatorNoteServiceMock.execute = jest.fn().mockImplementation(() => Promise.resolve([evaluatorNoteMock, evaluatorNoteMock]))
 
     const evaluatorNote = await updateEvaluatorNoteService.execute(
       evaluatorNoteMock.evaluator_id,
@@ -52,7 +52,7 @@ describe('UpdateEvaluatorNote', () => {
       evaluatorNoteMock.people_id,
       evaluatorNoteMock.note
     )
-    expect(getEvaluatorNoteServiceMock.execute).toHaveBeenCalled()
+    expect(evaluatorNoteServiceMock.execute).toHaveBeenCalled()
     expect(updateRecordPeopleServiceMock.execute).toHaveBeenCalled()
     expect(evaluatorNote).toMatchObject({
       affected: 1
@@ -60,7 +60,7 @@ describe('UpdateEvaluatorNote', () => {
   })
 
   it('not call updateRecordPeople when have array with one evaluatorNotes', async () => {
-    getEvaluatorNoteServiceMock.execute = jest.fn().mockImplementation(() => Promise.resolve([evaluatorNoteMock]))
+    evaluatorNoteServiceMock.execute = jest.fn().mockImplementation(() => Promise.resolve([evaluatorNoteMock]))
 
     const evaluatorNote = await updateEvaluatorNoteService.execute(
       evaluatorNoteMock.evaluator_id,
@@ -68,7 +68,7 @@ describe('UpdateEvaluatorNote', () => {
       evaluatorNoteMock.people_id,
       evaluatorNoteMock.note
     )
-    expect(getEvaluatorNoteServiceMock.execute).toHaveBeenCalled()
+    expect(evaluatorNoteServiceMock.execute).toHaveBeenCalled()
     expect(updateRecordPeopleServiceMock.execute).not.toHaveBeenCalled()
     expect(evaluatorNote).toMatchObject({
       affected: 1
