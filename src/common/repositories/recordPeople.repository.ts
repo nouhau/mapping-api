@@ -21,7 +21,6 @@ export class RecordPeopleRepository {
     updateRecord = async (peopleId: string, evidenceId: string, average: number) => {
       return await this.manager.update(RecordPeople,
         {
-          // TODO: change to dinamic paramter
           people_id: peopleId,
           evidence_id: evidenceId
         },

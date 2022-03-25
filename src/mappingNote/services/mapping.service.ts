@@ -21,4 +21,14 @@ export class MappingService {
 
     return await this.mappingRepository.getMapping(mappingId)
   }
+
+  // TODO add unit test
+  async getMappingByPeopleId (peopleId: string): Promise<Mapping> {
+    this.logger.trace(
+      'Geting mapping',
+      this.constructor.name
+    )
+
+    return await this.mappingRepository.getMappingByPeopleId(peopleId)
+  }
 }

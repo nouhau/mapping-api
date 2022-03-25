@@ -13,7 +13,8 @@ export class MappingNoteRepository {
       return await this.manager.find(MappingNote, {
         where: {
           mapping_id: mappingId
-        }
+        },
+        relations: ['skillId']
       })
     }
 

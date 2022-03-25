@@ -9,7 +9,7 @@ const evaluatorNoteRouter = Router()
 const updateEvaluatorNoteController = new UpdateEvaluatorNoteController()
 const evaluatorNoteController = new EvaluatorNoteController()
 
-evaluatorNoteRouter.get('/evaluatornote/:peopleId', verifyAuthenticated, verifyEvaluator, evaluatorNoteController.getEvaluatorNoteByPeopleId)
+evaluatorNoteRouter.get('/evaluatornote/:peopleId', evaluatorNoteController.getEvaluatorNoteByPeopleId)
 evaluatorNoteRouter.put('/evaluatornote', verifyAuthenticated, verifyEvaluator, updateEvaluatorNoteController.handle)
 
 export { evaluatorNoteRouter }

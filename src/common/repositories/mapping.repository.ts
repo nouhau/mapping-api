@@ -14,4 +14,11 @@ export class MappingRepository {
         mapping_id: mappingId
       })
     }
+
+    // TODO add unit test
+    getMappingByPeopleId = async (peopleId: string): Promise<Mapping> => {
+      return await this.manager.findOne(Mapping, {
+        people_id: peopleId
+      })
+    }
 }

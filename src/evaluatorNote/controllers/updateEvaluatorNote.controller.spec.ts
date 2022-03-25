@@ -24,8 +24,12 @@ describe('UpdateEvaluatorNoteController', () => {
     body: {
       evaluatorId: evaluatorNoteMock.evaluator_id,
       peopleId: evaluatorNoteMock.people_id,
-      evidenceId: evaluatorNoteMock.evidence_id,
-      note: evaluatorNoteMock.note
+      notes: [
+        {
+          evidenceId: evaluatorNoteMock.evidence_id,
+          note: evaluatorNoteMock.note
+        }
+      ]
     }
   } as Request
 

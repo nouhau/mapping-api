@@ -8,20 +8,24 @@ export class UpdateEvaluatorNoteController {
   async handle (request: Request, response: Response): Promise<Response> {
     const logger: LoggerService = new LoggerService()
     const evaluatorNoteRequest = new EvaluatorNoteRequest(request.body)
-    const updateEvaluatorNoteService = new UpdateEvaluatorNoteService(request.body)
+    const updateEvaluatorNoteService = new UpdateEvaluatorNoteService({})
 
     return await validateOrReject(evaluatorNoteRequest)
       .then(async () => {
         return await updateEvaluatorNoteService.execute(
           evaluatorNoteRequest.evaluatorId,
-          evaluatorNoteRequest.evidenceId,
           evaluatorNoteRequest.peopleId,
-          evaluatorNoteRequest.note
+          evaluatorNoteRequest.notes
         )
           .then(result => {
             return response.status(200).json(result)
           })
-          .catch(() => {
+          .catch((error) => {
+            logger.error(
+              'Error detailed',
+              error,
+              'Request error'
+            )
             throw new Error()
           })
       })
@@ -29,8 +33,9 @@ export class UpdateEvaluatorNoteController {
         let errorCode: string
         if (Array.isArray(error)) {
           error.forEach(item => {
-            logger.trace(
+            logger.error(
               `No ${item.property} is provided `,
+              error,
               'Request error'
             )
             errorCode = item.constraints[Object.keys(item.constraints)[0]]

@@ -50,10 +50,11 @@ export class UpdateMappingNoteService {
               let somaPesos = 0.0
               let media = 0.0
               const recordPeople = await this.getRecordPeople(peopleId)
+              console.log(recordPeople)
               const evaluatorMatrix = await this.getWeightSkill(mappingNote[0].skill_id, mapping.matrix_id)
               const skills = evaluatorMatrix.filter(skill => skill.skill_id === mappingNote[0].skill_id)
               skills.forEach(skill => {
-                somaProdutos += skill.value * mappingNote[0].note
+                somaProdutos += skill.value * recordPeople[0].average
                 somaPesos += skill.value
               })
 
