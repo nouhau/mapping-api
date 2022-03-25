@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
-import { Request } from 'express'
 import { getMockRecordPeople } from '../../__mocks__/mockRecordPeople'
 import { makeMockResponse } from '../../__mocks__/mockResponse'
+import { makeMockRequest } from '../../__mocks__/mockRequest'
 import { GetRecordPeopleController } from './getRecordPeople.controller'
 
 let mockExecute = jest.fn()
@@ -18,12 +18,11 @@ jest.mock('../services/getRecordPeople.service', () => {
 
 describe('GetRecordPeople', () => {
   const getRecordPeopleController = new GetRecordPeopleController()
-  const request = {
-    body: {
-      peopleId: randomUUID().toString(),
-      evidenceId: randomUUID().toString()
+  const request = makeMockRequest({
+    params: {
+      peopleId: randomUUID().toString()
     }
-  } as Request
+  })
 
   const response = makeMockResponse()
 
@@ -50,9 +49,7 @@ describe('GetRecordPeople', () => {
   })
 
   it('Should return error wher server fails', async () => {
-    mockExecute = jest.fn().mockImplementation(() => {
-      throw new Error()
-    })
+    mockExecute = jest.fn().mockRejectedValue(new Error())
 
     await getRecordPeopleController.handle(request, response)
     expect(response.state.status).toBe(500)

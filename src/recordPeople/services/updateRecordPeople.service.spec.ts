@@ -13,8 +13,7 @@ describe('UpdateRecordPeople', () => {
   beforeEach(async () => {
     await mockConnection.create()
     updateRecordPeopleService = new UpdateRecordPeopleService({
-      recordPeopleRepository: recordPeopleMockRepository,
-      value: 1
+      recordPeopleRepository: recordPeopleMockRepository
     })
   })
 

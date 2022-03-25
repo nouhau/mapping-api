@@ -25,11 +25,7 @@ describe('UpdateEvaluatorNote', () => {
 
     updateEvaluatorNoteService = new UpdateEvaluatorNoteService({
       evaluatorNoteRepository: evaluatorNoteMockRepository,
-      note: evaluatorNoteMock.note,
       updateRecordPeopleService: updateRecordPeopleServiceMock as UpdateRecordPeopleService,
-      evaluatorId: evaluatorNoteMock.evaluator_id,
-      peopleId: evaluatorNoteMock.people_id,
-      evidenceId: evaluatorNoteMock.evidence_id,
       evaluatorNoteService: evaluatorNoteServiceMock as EvaluatorNoteService
     })
 
@@ -48,14 +44,22 @@ describe('UpdateEvaluatorNote', () => {
 
     const evaluatorNote = await updateEvaluatorNoteService.execute(
       evaluatorNoteMock.evaluator_id,
-      evaluatorNoteMock.evidence_id,
       evaluatorNoteMock.people_id,
-      evaluatorNoteMock.note
+      [
+        {
+          evidenceId: evaluatorNoteMock.evidence_id,
+          note: evaluatorNoteMock.note
+        },
+        {
+          evidenceId: evaluatorNoteMock.evidence_id,
+          note: evaluatorNoteMock.note
+        }
+      ]
     )
     expect(evaluatorNoteServiceMock.execute).toHaveBeenCalled()
     expect(updateRecordPeopleServiceMock.execute).toHaveBeenCalled()
     expect(evaluatorNote).toMatchObject({
-      affected: 1
+      affected: 2
     })
   })
 
@@ -64,9 +68,11 @@ describe('UpdateEvaluatorNote', () => {
 
     const evaluatorNote = await updateEvaluatorNoteService.execute(
       evaluatorNoteMock.evaluator_id,
-      evaluatorNoteMock.evidence_id,
       evaluatorNoteMock.people_id,
-      evaluatorNoteMock.note
+      [{
+        evidenceId: evaluatorNoteMock.evidence_id,
+        note: evaluatorNoteMock.note
+      }]
     )
     expect(evaluatorNoteServiceMock.execute).toHaveBeenCalled()
     expect(updateRecordPeopleServiceMock.execute).not.toHaveBeenCalled()

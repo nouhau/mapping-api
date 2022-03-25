@@ -5,6 +5,6 @@ const recordPeopleRouter = Router()
 
 const getRecordPeopleController = new GetRecordPeopleController()
 
-recordPeopleRouter.get('/records', getRecordPeopleController.handle)
+recordPeopleRouter.get('/records/:peopleId', getRecordPeopleController.handle)
 
 export { recordPeopleRouter }

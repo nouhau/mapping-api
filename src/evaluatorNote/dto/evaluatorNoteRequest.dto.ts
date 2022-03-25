@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, ValidateIf } from 'class-validator'
+import { IsNotEmpty, IsArray, ValidateIf } from 'class-validator'
 import { errorCodes } from '../../common/errorCodes'
 
 export class EvaluatorNoteRequest {
@@ -8,25 +8,19 @@ export class EvaluatorNoteRequest {
   @IsNotEmpty({ message: errorCodes.PEOPLE_ID_REQUIRED })
   peopleId: string
 
-  @IsNotEmpty({ message: errorCodes.EVIDENCE_ID_REQUIRED })
-  evidenceId: string
-
   @IsNotEmpty({ message: errorCodes.NOTE_REQUIRED })
-  @IsNumber(
-    { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 0 },
+  @IsArray(
     { message: errorCodes.NON_NUMERIC_VALUE }
   )
-  note: number
+  notes: []
 
   constructor (body: {
     evaluatorId: string,
     peopleId: string,
-    evidenceId: string,
-    note: number
+    notes: []
   }) {
     this.evaluatorId = body.evaluatorId
     this.peopleId = body.peopleId
-    this.evidenceId = body.evidenceId
-    this.note = body.note || null
+    this.notes = body.notes
   }
 }

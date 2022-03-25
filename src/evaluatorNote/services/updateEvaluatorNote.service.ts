@@ -6,69 +6,65 @@ import { UpdateRecordPeopleService } from '../../recordPeople/services/updateRec
 import { EvaluatorNoteService } from './evaluatorNote.service'
 
 interface IEvaluatorNoteService {
-  evaluatorNoteRepository?: EvaluatorNoteRepository,
-  note: number
+  evaluatorNoteRepository?: EvaluatorNoteRepository
   updateRecordPeopleService?: UpdateRecordPeopleService,
-  evaluatorId: string,
-  peopleId: string,
-  evidenceId: string,
   evaluatorNoteService?: EvaluatorNoteService
 }
 
 export class UpdateEvaluatorNoteService {
     private evaluatorNoteRepository: EvaluatorNoteRepository
-    private evaluatorNote: EvaluatorNote
     private logger: LoggerService = new LoggerService()
     private updateRecordPeopleService: UpdateRecordPeopleService
     private evaluatorNoteService: EvaluatorNoteService
 
     constructor ({
       evaluatorNoteRepository = getCustomRepository(EvaluatorNoteRepository),
-      note,
-      updateRecordPeopleService = new UpdateRecordPeopleService({ value: note }),
-      evaluatorId,
-      peopleId,
-      evidenceId,
+      updateRecordPeopleService = new UpdateRecordPeopleService({}),
       evaluatorNoteService = new EvaluatorNoteService()
     }: IEvaluatorNoteService) {
       this.evaluatorNoteRepository = evaluatorNoteRepository
       this.updateRecordPeopleService = updateRecordPeopleService
       this.evaluatorNoteService = evaluatorNoteService
-      this.evaluatorNote = new EvaluatorNote(
-        evaluatorId,
-        peopleId,
-        evidenceId,
-        note
-      )
     }
 
     async execute (
       evaluatorId: string,
-      evidenceId: string,
       peopleId: string,
-      note: number
+      notes: {
+        evidenceId: string
+        note: number
+      }[]
     ) {
       this.logger.trace(
         'Updating note',
         this.constructor.name
       )
-      return await this.evaluatorNoteRepository.updateEvaluatorNote(
-        evaluatorId,
-        evidenceId,
-        peopleId,
-        note
-      )
-        .then(async evaluatorNote => {
-          this.getEvaluatorNotes(evidenceId, peopleId)
-            .then(evaluatorNotes => {
-              const average = this.calulateAverage(evaluatorNotes)
-              if (average) {
-                this.updateRecordPeople(peopleId, evidenceId, average)
-                return evaluatorNote
-              }
-            })
-          return evaluatorNote
-        })
+
+      let affectedCountRows = 0
+
+      for (const note of notes) {
+        await this.evaluatorNoteRepository.updateEvaluatorNote(
+          evaluatorId,
+          note.evidenceId,
+          peopleId,
+          note.note
+        )
+          .then(async updateResult => {
+            if (updateResult.affected > 0) {
+              affectedCountRows++
+              console.log('Atualizando nota...', note.note)
+              await this.getEvaluatorNotes(note.evidenceId, peopleId)
+                .then(async evaluatorNotes => {
+                  const average = this.calulateAverage(evaluatorNotes)
+                  if (average) {
+                    await this.updateRecordPeople(peopleId, note.evidenceId, average)
+                  }
+                })
+            }
+          })
+      }
+
+      return { affected: affectedCountRows }
     }
 
     private async updateRecordPeople (
