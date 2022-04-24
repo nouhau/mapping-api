@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, ValidateIf } from 'class-validator'
+import { IsNotEmpty } from 'class-validator'
 import { errorCodes } from '../../common/errorCodes'
 
 export class MappingNoteRequest {

@@ -52,7 +52,6 @@ export class UpdateEvaluatorNoteService {
           .then(async updateResult => {
             if (updateResult.affected > 0) {
               affectedCountRows++
-              console.log('Atualizando nota...', note.note)
               await this.getEvaluatorNotes(note.evidenceId, peopleId)
                 .then(async evaluatorNotes => {
                   const average = this.calulateAverage(evaluatorNotes)

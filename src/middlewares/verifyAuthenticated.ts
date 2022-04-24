@@ -23,8 +23,6 @@ export function verifyAuthenticated (request: Request, response: Response, next:
         'verifyAuthenticated'
       )
 
-      console.log(auth)
-
       request.body = { ...request.body, auth }
       return next()
     } catch (error) {

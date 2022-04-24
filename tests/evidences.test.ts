@@ -1,5 +1,5 @@
-import { DataTest } from "./utils/dataTest"
-import { testServer } from "./utils/testServer"
+import { DataTest } from './utils/dataTest'
+import { testServer } from './utils/testServer'
 
 describe('/evidences', () => {
   const data = new DataTest()
