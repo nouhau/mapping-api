@@ -20,12 +20,10 @@ describe('UpdateMappingNote', () => {
   let mappingServiceMock: Partial<MappingService>
   let updateMappingNoteService: UpdateMappingNoteService
 
+  const mappingMock = getMockMapping()
   const mappingNoteMock = getMockMappingNote()
   const recordPeopleMock = getMockRecordPeople()
-  const mappingMock = getMockMapping()
-
-  recordPeopleMock.average = 2
-  const recordPeopleReturn = [recordPeopleMock, getMockRecordPeople()]
+  const otherRecordPeopleMock = getMockRecordPeople()
 
   const evaluationMatrixMock = [
     getMockEvaluationMatrix(),
@@ -33,11 +31,18 @@ describe('UpdateMappingNote', () => {
     getMockEvaluationMatrix()
   ]
 
+  recordPeopleMock.average = 2
+  otherRecordPeopleMock.average = 0.5
+
+  const recordPeopleReturn = [recordPeopleMock, otherRecordPeopleMock]
+
   mappingNoteMock.note = 3
   evaluationMatrixMock[0].skill_id = mappingNoteMock.skill_id
-  evaluationMatrixMock[0].value = 2
   evaluationMatrixMock[1].skill_id = mappingNoteMock.skill_id
-  evaluationMatrixMock[0].value = 3
+  evaluationMatrixMock[0].evidence_id = recordPeopleMock.evidence_id
+  evaluationMatrixMock[1].evidence_id = otherRecordPeopleMock.evidence_id
+  evaluationMatrixMock[0].value = 2
+  evaluationMatrixMock[1].value = 3
 
   beforeEach(async () => {
     await mockConnection.create()
@@ -81,6 +86,9 @@ describe('UpdateMappingNote', () => {
       }))
 
     const otherMappingNoteMock = getMockMappingNote()
+    evaluationMatrixMock[2].skill_id = otherMappingNoteMock.skill_id
+    evaluationMatrixMock[2].value = 2
+    evaluationMatrixMock[2].evidence_id = recordPeopleMock.evidence_id
     const mockReturn = [mappingNoteMock, otherMappingNoteMock]
     getMappingNoteServiceMock.execute = jest.fn().mockImplementation(() => Promise.resolve(mockReturn))
 
@@ -92,8 +100,9 @@ describe('UpdateMappingNote', () => {
     const mappingNote = await updateMappingNoteService.execute(mappingMock.mapping_id)
     expect(getRecordPeopleServiceMock.execute).toHaveBeenCalled()
     expect(getWeightSkillServiceMock.execute).toHaveBeenCalled()
+    expect(mappingNoteMockRepository.updateMappingNote).toHaveBeenCalledTimes(mockReturn.length)
     expect(mappingNote).toMatchObject({
-      affected: 1
+      affected: mockReturn.length
     })
   })
 })

@@ -11,7 +11,6 @@ export function verifyEvaluator (request: Request, response: Response, next: Nex
   )
 
   if (request.body.auth.role === userRole.EVALUATOR || request.body.auth.role === userRole.ADMIN) {
-    console.log(request.body.auth.role)
     return next()
   }
 

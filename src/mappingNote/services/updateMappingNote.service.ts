@@ -44,35 +44,55 @@ export class UpdateMappingNoteService {
       return await this.getMapping(mappingId)
         .then(async mapping => {
           peopleId = mapping.people_id
-          return await this.getMappingNote(mappingId)
+          const result = await this.getMappingNote(mappingId)
             .then(async mappingNote => {
-              let somaProdutos = 0.0
-              let somaPesos = 0.0
-              let media = 0.0
-              const recordPeople = await this.getRecordPeople(peopleId)
-              console.log(recordPeople)
-              const evaluatorMatrix = await this.getWeightSkill(mappingNote[0].skill_id, mapping.matrix_id)
-              const skills = evaluatorMatrix.filter(skill => skill.skill_id === mappingNote[0].skill_id)
-              skills.forEach(skill => {
-                somaProdutos += skill.value * recordPeople[0].average
-                somaPesos += skill.value
-              })
+              let affected: number = 0
 
-              recordPeople.forEach(record => {
-                media += record.average
-              })
-              media = media / evaluatorMatrix.length
-
-              const mediaPond = somaProdutos / somaPesos
-
-              console.log({ somaProdutos, media, somaPesos, mediaPond })
-
-              return await this.mappingNoteRepository.updateMappingNote(
-                mappingId,
-                mappingNote[0].skill_id,
-                mediaPond
+              this.logger.trace(
+                'Updating mappingNotes',
+                this.constructor.name
               )
+
+              const recordPeople = await this.getRecordPeople(peopleId)
+
+              for (const notes of mappingNote) {
+                let somaProdutos = 0.0
+                let somaPesos = 0.0
+                const evaluatorMatrix = await this.getWeightSkill(notes.skill_id, mapping.matrix_id)
+                const skills = evaluatorMatrix.filter(skill => skill.skill_id === notes.skill_id)
+                skills.forEach(skill => {
+                  const record = recordPeople.filter(record => record.evidence_id === skill.evidence_id)
+                  if (record.length > 0) {
+                    somaProdutos += skill.value * record[0].average
+                    somaPesos += skill.value
+                  }
+                })
+
+                const mediaPond = (somaProdutos / somaPesos).toFixed(2)
+
+                this.logger.trace(
+                  `Calculating values. mediaPond, ${mediaPond}, skillId, ${notes.skill_id}`,
+                  this.constructor.name
+                )
+
+                const response = await this.mappingNoteRepository.updateMappingNote(
+                  mappingId,
+                  notes.skill_id,
+                  Number(mediaPond)
+                )
+
+                this.logger.trace(
+                  `Affected rows, ${response.affected}. Total affected rows, ${affected}`,
+                  this.constructor.name
+                )
+
+                if (response.affected === 1) affected++
+              }
+
+              return { affected }
             })
+
+          return result
         })
     }
 

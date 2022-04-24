@@ -14,7 +14,6 @@ export class EvidenceRepository {
     }
 
     save = async (evidence: Evidence): Promise<Evidence> => {
-      console.log(evidence)
       return await this.manager.save(evidence)
     }
 }

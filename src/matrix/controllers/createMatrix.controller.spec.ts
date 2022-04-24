@@ -50,7 +50,6 @@ describe('CreateMatrixController', () => {
     mockExecute = jest.fn().mockResolvedValue(matrixMock)
 
     await createMatrixController.handle(request, response)
-    console.log(response)
     expect(response.state.status).toBe(400)
   })
 

@@ -18,6 +18,7 @@ export class UpdateMappingNoteController {
           })
       })
       .catch((error) => {
+        console.log(error)
         let errorCode: string
         if (Array.isArray(error)) {
           error.forEach(item => {
