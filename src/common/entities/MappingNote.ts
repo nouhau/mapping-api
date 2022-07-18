@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Mapping } from './Mapping';
-import { Skill } from './Skills';
+import { Skill } from './Skill';
 import { randomUUID } from 'crypto'
 
 @Entity('mappingNotes')

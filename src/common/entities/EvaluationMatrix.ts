@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Evidence } from './Evidences'
+import { Evidence } from './Evidence'
 import { Matrix } from './Matrix'
-import { Skill } from './Skills'
+import { Skill } from './Skill'
 
 @Entity('evaluationMatrix')
 export class EvaluationMatrix {

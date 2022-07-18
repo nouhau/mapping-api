@@ -20,12 +20,14 @@ export class Matrix {
 
     constructor (
       name?: string,
-      desc?: string
+      desc?: string,
+      active?: boolean
     ) {
       if(!this.matrix_id) {
         this.matrix_id = randomUUID().toString()
       }
       this.name = name
       this.desc = desc
+      this.active = active ? active : false
     }
 }

@@ -7,12 +7,4 @@ export class MatrixRequest {
 
   @IsNotEmpty({ message: errorCodes.DESCRIPTION_REQUIRED })
   desc: string
-
-  constructor (body: {
-    name: string,
-    desc: string
-  }) {
-    this.name = body.name
-    this.desc = body.desc
-  }
 }

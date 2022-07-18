@@ -1,20 +1,23 @@
-import { randomUUID } from 'crypto'
-import { MappingNote } from '../common/entities/MappingNote'
-import { randomString } from '../common/randomString'
+import { randomUUID } from 'crypto';
+import { MappingNote } from '../common/entities/MappingNote';
 
-export const getMockMappingNote = (): MappingNote => ({
-  mappingNote_id: randomUUID().toString(),
-  mapping_id: randomUUID().toString(),
-  skill_id: randomUUID().toString(),
+export const getMockMappingNote = ({
+  mappingNoteId = randomUUID(),
+  mappingId = randomUUID(),
+  skillId = randomUUID()
+}): MappingNote => ({
+  mappingNote_id: mappingNoteId,
+  mapping_id: mappingId,
+  skill_id: skillId,
   note: 2,
   mappingId: {
-    mapping_id: randomUUID().toString(),
-    people_id: randomUUID().toString(),
-    matrix_id: randomUUID().toString()
+    mapping_id: mappingId,
+    people_id: randomUUID(),
+    matrix_id: randomUUID()
   },
   skillId: {
-    skill_id: randomUUID().toString(),
-    name: randomString(),
-    desc: 'Some description'
+    skill_id: skillId,
+    name: 'skill',
+    desc: 'desc'
   }
 })
