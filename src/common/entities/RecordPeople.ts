@@ -1,6 +1,6 @@
 
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Evidence } from './Evidences'
+import { Evidence } from './Evidence'
 import { randomUUID } from 'crypto'
 
 @Entity('recordPeople')
