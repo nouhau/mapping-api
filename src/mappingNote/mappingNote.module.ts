@@ -1,7 +1,7 @@
 import { Logger, Module } from '@nestjs/common';
 import { MappingNoteService } from './service/mappingNote.service';
 import { MappingNoteController } from './mappingNote.controller';
-import { MappingService } from '../mapping/mapping.service';
+import { MappingService } from '../mapping/service/mapping.service';
 import { MappingNote } from '../common/entities/MappingNote';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecordPeopleService } from '../recordPeople/service/recordPeople.service';

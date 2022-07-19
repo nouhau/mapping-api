@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Mapping } from '../common/entities/Mapping';
+import { Mapping } from '../../common/entities/Mapping';
 
 @Injectable()
 export class MappingService {
@@ -19,6 +19,19 @@ export class MappingService {
     return this.mappingRepository.findOne({
       where: {
         mapping_id: mappingId
+      }
+    })
+  }
+
+  //TODO: add unit test
+  getMappingByPeopleId = async (peopleId: string): Promise<Mapping> => {
+    this.logger.log(
+      `Getting mapping for peopleId: ${peopleId}`
+    )
+
+    return this.mappingRepository.findOne({
+      where: {
+        people_id: peopleId
       }
     })
   }

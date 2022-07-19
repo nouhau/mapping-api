@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MappingNote } from '../../common/entities/MappingNote';
 import { Repository, UpdateResult } from 'typeorm';
 import { Mapping } from '../../common/entities/Mapping';
-import { MappingService } from '../../mapping/mapping.service';
+import { MappingService } from '../../mapping/service/mapping.service';
 import { RecordPeopleService } from '../../recordPeople/service/recordPeople.service';
 import { RecordPeople } from '../../common/entities/RecordPeople';
 import { EvaluationMatrixService } from '../../evaluationMatrix/service/evaluationMatrix.service';
@@ -29,7 +29,8 @@ export class MappingNoteService {
     return this.mappingNoteMappingNoteRepository.find({
       where: {
         mapping_id: mappingId
-      }
+      },
+      relations: ['skillId', 'mappingId']
     })
   }
 
@@ -94,6 +95,15 @@ export class MappingNoteService {
     )
 
     return this.mappingService.getMapping(mappingId)
+  }
+
+  //TODO: unit test and refactor
+  getMappingByPeopleId = async(peopleId: string): Promise<Mapping> => {
+    this.logger.log(
+      `Getting mapping with peopleOd: ${peopleId}`
+    )
+
+    return this.mappingService.getMappingByPeopleId(peopleId)
   }
 
   getRecordPeople = async (peopleId: string): Promise<RecordPeople[]> => {

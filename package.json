@@ -15,7 +15,7 @@
     "start": "nest start",
     "start:dev": "export PORT=5001 && nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "service:dev": "export PORT=5011 && node dist/main",
+    "service:dev": "export PORT=5010 && node dist/main",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",

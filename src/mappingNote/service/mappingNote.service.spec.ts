@@ -7,7 +7,7 @@ import { getMockMappingNote } from '../../__mocks__/mockMappingNote';
 import { MappingNote } from '../../common/entities/MappingNote';
 import { MappingNoteService } from './mappingNote.service';
 import { getMockMapping } from '../../__mocks__/mockMapping';
-import { MappingService } from '../../mapping/mapping.service';
+import { MappingService } from '../../mapping/service/mapping.service';
 import { RecordPeopleService } from '../../recordPeople/service/recordPeople.service';
 import { getMockRecordPeople } from '../../__mocks__/mockRecordPeople';
 import { EvaluationMatrixService } from '../../evaluationMatrix/service/evaluationMatrix.service';
@@ -103,7 +103,8 @@ describe('MappingNoteService', () => {
     expect(mockMappingNoteRepository.find).toHaveBeenCalledWith({
       where: {
         mapping_id: mockMappingId
-      }
+      },
+      relations: ['skillId', 'mappingId']
     })
     expect(mappingNote).toHaveLength(1)
     expect(mappingNote[0].mappingNote_id).toBeDefined()

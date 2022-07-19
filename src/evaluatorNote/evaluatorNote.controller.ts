@@ -11,7 +11,6 @@ export class EvaluatorNoteController {
     private readonly logger: Logger = new Logger(EvaluatorNoteController.name)
     ) {}
 
-  @UseGuards(AuthGuard('authEvaluator'))
   @Get(':peopleId')
   getEvaluatorNoteByPeopleId(@Param('peopleId') peopleId: string): Promise<EvaluatorNote[]> {
     this.logger.log(
