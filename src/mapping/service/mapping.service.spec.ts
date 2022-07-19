@@ -2,8 +2,8 @@ import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { getMockMapping } from '../__mocks__/mockMapping';
-import { Mapping } from '../common/entities/Mapping';
+import { getMockMapping } from '../../__mocks__/mockMapping';
+import { Mapping } from '../../common/entities/Mapping';
 import { MappingService } from './mapping.service';
 import { randomUUID } from 'crypto';
 

@@ -1,7 +1,8 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mapping } from '../common/entities/Mapping';
-import { MappingService } from './mapping.service';
+import { MappingService } from './service/mapping.service';
+import { MappingController } from './mapping.controller';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { MappingService } from './mapping.service';
   providers: [
     MappingService,
     Logger
-  ]
+  ],
+  controllers: [MappingController]
 })
 export class MappingModule {}

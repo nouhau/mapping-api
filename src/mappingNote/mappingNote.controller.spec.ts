@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { randomUUID } from 'crypto';
 import { MappingNote } from '../common/entities/MappingNote';
 import { EvaluationMatrixService } from '../evaluationMatrix/service/evaluationMatrix.service';
-import { MappingService } from '../mapping/mapping.service';
+import { MappingService } from '../mapping/service/mapping.service';
 import { RecordPeopleService } from '../recordPeople/service/recordPeople.service';
 import { MappingNoteController } from './mappingNote.controller';
 import { MappingNoteService } from './service/mappingNote.service';
