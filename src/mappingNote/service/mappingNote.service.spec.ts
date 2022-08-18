@@ -25,6 +25,7 @@ describe('MappingNoteService', () => {
   const mockPeopleId = randomUUID()
   const mockEvidenceId = randomUUID()
   const mockSkillId = randomUUID()
+  const differentSkillId = randomUUID()
   const mockMatrixId = randomUUID()
   
   const mockRecordPeople = getMockRecordPeople({
@@ -43,6 +44,22 @@ describe('MappingNoteService', () => {
     mockMatrixId,
     mockEvidenceId
   })
+  const secondMockEvaluationMatrix = getMockEvaluationMatrix({
+    mockSkillId,
+    mockMatrixId,
+    mockEvidenceId,
+    value: 3,
+  })
+  const ignoredMockEvaluationMatrix = getMockEvaluationMatrix({
+    mockSkillId: differentSkillId,
+    mockMatrixId,
+  })
+
+  const mockEvaluationMatrixArray = [
+    mockEvaluationMatrix,
+    secondMockEvaluationMatrix,
+    ignoredMockEvaluationMatrix
+  ]
 
   const MAPPING_NOTE_REPOSITORY_TOKEN = getRepositoryToken(MappingNote)
 
@@ -67,7 +84,8 @@ describe('MappingNoteService', () => {
         {
           provide: MappingService,
           useValue: {
-            getMapping: jest.fn()
+            getMapping: jest.fn(),
+            getMappingByPeopleId: jest.fn()
           }
         },
         {
@@ -113,7 +131,8 @@ describe('MappingNoteService', () => {
       mapping_id: mockMappingId,
       note: 2,
       mappingId: {
-        mapping_id: mockMappingId
+        mapping_id: mockMappingId,
+        feedback: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
       },
       skillId: {
         name: 'skill',
@@ -123,17 +142,7 @@ describe('MappingNoteService', () => {
   });
 
   it('should be update mappingNote', async () => {
-    const differentSkillId = randomUUID()
-    const secondMockEvaluationMatrix = getMockEvaluationMatrix({
-      mockSkillId,
-      mockMatrixId,
-      mockEvidenceId,
-      value: 3
-    })
-    const ignoredMockEvaluationMatrix = getMockEvaluationMatrix({
-      mockSkillId: differentSkillId,
-      mockMatrixId
-    })
+    
     const mockUpdateResponse: UpdateResult = {
       raw: '',
       affected: 1,
@@ -142,11 +151,7 @@ describe('MappingNoteService', () => {
     const mockGetMapping = jest.spyOn(mockMappingService, 'getMapping').mockImplementation(() => Promise.resolve(mockMapping))
     const mockGetmappingNote = jest.spyOn(service, 'getMappingNote').mockImplementation(() => Promise.resolve([mockMappingNote]))
     const mockGetRecordPeople = jest.spyOn(service, 'getRecordPeople').mockImplementation(() => Promise.resolve([mockRecordPeople]))
-    const mockGetWeightSkill = jest.spyOn(service, 'getWeightSkill').mockImplementation(() => Promise.resolve([
-      mockEvaluationMatrix,
-      secondMockEvaluationMatrix,
-      ignoredMockEvaluationMatrix
-    ]))
+    const mockGetWeightSkill = jest.spyOn(service, 'getWeightSkill').mockImplementation(() => Promise.resolve(mockEvaluationMatrixArray))
     jest.spyOn(mockMappingNoteRepository, 'update').mockImplementation(() => Promise.resolve(mockUpdateResponse))
 
     const response = await service.updateMappingNote(mockMappingId)
@@ -184,7 +189,10 @@ describe('MappingNoteService', () => {
     expect(mockMappingService.getMapping).toHaveBeenCalledWith(mockMappingId)
     expect(mapping.matrix_id).toBeDefined()
     expect(mapping.people_id).toBeDefined()
-    expect(mapping.mapping_id).toBe(mockMappingId)
+    expect(mapping).toMatchObject({
+      mapping_id: mockMappingId,
+      feedback: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    })
   })
 
   it('should be return a recordPeople with peopleId', async () => {
@@ -219,4 +227,25 @@ describe('MappingNoteService', () => {
     expect(evaluationMatrix[0].skillId.skill_id).toBe(mockSkillId)
     expect(evaluationMatrix[0].matrixId.matrix_id).toBe(mockMatrixId)
   })
+
+  it('should be return a complete mapping', async () => {
+    const mockMapping = getMockMapping({
+      mappingId: mockMappingId,
+      peopleId: mockPeopleId
+    })
+    const mockGetMappingByPeopleId = jest.spyOn(mockMappingService, 'getMappingByPeopleId').mockImplementation(() => Promise.resolve(mockMapping))
+
+    const mapping = await service.getMappingByPeopleId(mockPeopleId)
+    expect(mockLogger.log).toHaveBeenCalledWith(
+      `Getting mapping with peopleId: ${mockPeopleId}`
+    )
+    expect(mockGetMappingByPeopleId).toHaveBeenCalledWith(mockPeopleId)
+    expect(mapping.matrix_id).toBeDefined()
+    expect(mapping.people_id).toBeDefined()
+    expect(mapping).toMatchObject({
+      mapping_id: mockMappingId,
+      people_id: mockPeopleId,
+      feedback: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    })
+  });
 });

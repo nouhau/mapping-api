@@ -12,6 +12,7 @@ import { EvaluatorNoteModule } from './evaluatorNote/evaluatorNote.module';
 import { RecordPeopleModule } from './recordPeople/recordPeople.module';
 import { MappingModule } from './mapping/mapping.module';
 import { MappingNoteModule } from './mappingNote/mappingNote.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { MappingNoteModule } from './mappingNote/mappingNote.module';
     EvaluatorNoteModule,
     RecordPeopleModule,
     MappingModule,
-    MappingNoteModule
+    MappingNoteModule,
+    HealthModule
   ]
 })
 export class AppModule {}

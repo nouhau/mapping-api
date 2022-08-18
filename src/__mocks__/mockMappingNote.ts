@@ -4,7 +4,9 @@ import { MappingNote } from '../common/entities/MappingNote';
 export const getMockMappingNote = ({
   mappingNoteId = randomUUID(),
   mappingId = randomUUID(),
-  skillId = randomUUID()
+  skillId = randomUUID(),
+  peopleId = randomUUID(),
+  matrixId = randomUUID()
 }): MappingNote => ({
   mappingNote_id: mappingNoteId,
   mapping_id: mappingId,
@@ -12,8 +14,9 @@ export const getMockMappingNote = ({
   note: 2,
   mappingId: {
     mapping_id: mappingId,
-    people_id: randomUUID(),
-    matrix_id: randomUUID()
+    people_id: peopleId,
+    matrix_id: matrixId,
+    feedback: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
   },
   skillId: {
     skill_id: skillId,

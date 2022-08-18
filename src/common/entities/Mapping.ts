@@ -12,14 +12,19 @@ export class Mapping {
     @Column({ nullable: false })
     matrix_id: string
 
+    @Column({ nullable: true })
+    feedback: string
+
     constructor (
       people_id: string,
-      matrix_id: string
+      matrix_id: string,
+      feedback?: string
     ) {
       if(!this.mapping_id) {
         this.mapping_id = randomUUID().toString()
       }
       this.people_id = people_id
       this.matrix_id = matrix_id
+      if (feedback) this.feedback = feedback
     }
 }

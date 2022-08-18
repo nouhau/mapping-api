@@ -23,7 +23,6 @@ export class MappingService {
     })
   }
 
-  //TODO: add unit test
   getMappingByPeopleId = async (peopleId: string): Promise<Mapping> => {
     this.logger.log(
       `Getting mapping for peopleId: ${peopleId}`

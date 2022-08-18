@@ -39,7 +39,7 @@ describe('MappingService', () => {
     mockMappingRepository = module.get<Repository<Mapping>>(MAPPING_REPOSITORY_TOKEN)
   });
 
-  it('should be return a mapping', async () => {
+  it('should be return a complete mapping when call getMapping', async () => {
     const mockMappingId = randomUUID()
     const mockMapping = getMockMapping({
       mappingId: mockMappingId
@@ -57,6 +57,33 @@ describe('MappingService', () => {
     })
     expect(mapping.matrix_id).toBeDefined()
     expect(mapping.people_id).toBeDefined()
-    expect(mapping.mapping_id).toBe(mockMappingId)
+    expect(mapping).toMatchObject({
+      mapping_id: mockMappingId,
+      feedback: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    })
+  });
+
+  it('should be return a complete mapping when call getMappingByPeopleId', async () => {
+    const mockPeopleId = randomUUID()
+    const mockMapping = getMockMapping({
+      peopleId: mockPeopleId
+    })
+    jest.spyOn(mockMappingRepository, 'findOne').mockImplementation(() => Promise.resolve(mockMapping))
+
+    const mapping = await service.getMappingByPeopleId(mockPeopleId)
+    expect(mockLogger.log).toHaveBeenCalledWith(
+      `Getting mapping for peopleId: ${mockPeopleId }`
+    )
+    expect(mockMappingRepository.findOne).toHaveBeenCalledWith({
+      where: {
+        people_id: mockPeopleId
+      }
+    })
+    expect(mapping.matrix_id).toBeDefined()
+    expect(mapping.mapping_id).toBeDefined()
+    expect(mapping).toMatchObject({
+      people_id: mockPeopleId,
+      feedback: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    })
   });
 });

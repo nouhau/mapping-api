@@ -2,6 +2,8 @@ import { Controller, Body, Put, Logger, ValidationPipe, UseGuards, Get, Param } 
 import { MappingNoteService } from './service/mappingNote.service';
 import { UpdateMappingNoteRequest } from './dto/updateMappingNoteRequest.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { MappingNote } from '../common/entities/MappingNote';
+import { Mapping } from '../common/entities/Mapping';
 
 @Controller('mappingnote')
 export class MappingNoteController {
@@ -26,13 +28,13 @@ export class MappingNoteController {
       `Getting mapping from ${peopleId}`
     )
 
-    const mapping = await this.mappingNoteService.getMappingByPeopleId(peopleId)
+    const mapping: Mapping = await this.mappingNoteService.getMappingByPeopleId(peopleId)
 
     this.logger.log(
       `Getting mappingNote with mappingNote ${mapping.mapping_id}`
     )
 
-    const mappingNotes = await this.mappingNoteService.getMappingNote(mapping.mapping_id)
+    const mappingNotes: MappingNote[] = await this.mappingNoteService.getMappingNote(mapping.mapping_id)
 
     return {
       mapping,

@@ -1,7 +1,7 @@
 import { Controller, Post, Body, ValidationPipe, Logger, UseGuards } from '@nestjs/common';
 import { MatrixService } from './service/matrix.service';
 import { MatrixRequest } from './dto/matrixRequest.dto';
-import { Matrix } from 'src/common/entities/Matrix';
+import { Matrix } from '../common/entities/Matrix';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('matrix')

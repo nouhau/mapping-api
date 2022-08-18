@@ -22,9 +22,9 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
       username: configService.get('DATABASE_USER'),
       password: configService.get('DATABASE_PASSWORD'),
       database: configService.get('DATABASE_NAME'),
-      ssl: {
-        rejectUnauthorized: false
-      },
+      //  ssl: {
+    //      rejectUnauthorized: false
+      //  },
       entities: [
         EvaluationMatrix,
         EvaluatorNote,

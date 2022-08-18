@@ -97,10 +97,9 @@ export class MappingNoteService {
     return this.mappingService.getMapping(mappingId)
   }
 
-  //TODO: unit test and refactor
   getMappingByPeopleId = async(peopleId: string): Promise<Mapping> => {
     this.logger.log(
-      `Getting mapping with peopleOd: ${peopleId}`
+      `Getting mapping with peopleId: ${peopleId}`
     )
 
     return this.mappingService.getMappingByPeopleId(peopleId)
